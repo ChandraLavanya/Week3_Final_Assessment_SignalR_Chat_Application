@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dapplo.CaliburnMicro.Metro</name>
+    </assembly>
+    <members>
+        <member name="T:Dapplo.CaliburnMicro.Metro.Configuration.IMetroUiConfiguration">
+            <summary>
+            This is the configuration for the Metro UI settings
+            </summary>
+        </member>
+        <member name="P:Dapplo.CaliburnMicro.Metro.Configuration.IMetroUiConfiguration.Theme">
+            <summary>
+                The theme
+            </summary>
+        </member>
+        <member name="P:Dapplo.CaliburnMicro.Metro.Configuration.IMetroUiConfiguration.ThemeColor">
+            <summary>
+                The color for the theme
+            </summary>
+        </member>
+        <member name="T:Dapplo.CaliburnMicro.Metro.MetroAddonModule">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroAddonModule.Load(Autofac.ContainerBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Dapplo.CaliburnMicro.Metro.MetroThemeManager">
+            <summary>
+            This 
+            </summary>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroThemeManager.#ctor(Dapplo.CaliburnMicro.ResourceManager)">
+            <summary>
+            Default constructor taking care of initialization
+            </summary>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroThemeManager.AddMahappsStyle(System.String,System.Int32)">
+            <summary>
+                Add a ResourceDictionary for the specified MahApps style
+                The Uri to the source is created by CreateMahappStyleUri
+            </summary>
+            <param name="style">
+                Style name, this is actually what is added behind
+                pack://application:,,,/MahApps.Metro;component/Styles/ (and .xaml is added)
+            </param>
+            <param name="order">int order for the ResourceManager</param>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroThemeManager.RemoveMahappsStyle(System.String)">
+            <summary>
+                Remove all ResourceDictionaries for the specified MahApps style
+                The Uri to the source is created by CreateMahappStyleUri
+            </summary>
+            <param name="style">string</param>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroThemeManager.ChangeTheme(System.String,System.String)">
+            <summary>
+                Change the current theme
+            </summary>
+            <param name="theme">string</param>
+            <param name="themeColor">string</param>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroThemeManager.ChangeTheme(System.String)">
+            <summary>
+                Change the current theme
+            </summary>
+            <param name="themeName">string</param>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroThemeManager.ChangeTheme(ControlzEx.Theming.Theme)">
+            <summary>
+                Change the current theme
+            </summary>
+            <param name="theme">Theme</param>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroThemeManager.CreateMahappStyleUri(System.String)">
+            <summary>
+                Create a MapApps Uri for the supplied style
+            </summary>
+            <param name="style">e.g. Fonts or Controls</param>
+            <returns>Uri</returns>
+        </member>
+        <member name="P:Dapplo.CaliburnMicro.Metro.MetroThemeManager.AvailableThemes">
+            <summary>
+            The available themes
+            </summary>
+        </member>
+        <member name="P:Dapplo.CaliburnMicro.Metro.MetroThemeManager.AvailableThemeColors">
+            <summary>
+            The available theme colors
+            </summary>
+        </member>
+        <member name="T:Dapplo.CaliburnMicro.Metro.MetroWindowManager">
+            <summary>
+                This (slightly modified) comes from
+                <a href="https://github.com/ziyasal/Caliburn.Metro/blob/master/Caliburn.Metro.Core/MetroWindowManager.cs">here</a>
+                and providers a Caliburn.Micro IWindowManager implementation. The Dapplo.CaliburnMicro.CaliburnMicroBootstrapper
+                will
+                take care of taking this (if available) and the MetroWindowManager will take care of instantiating a MetroWindow.
+                Note: Currently there is no support for the DialogCoordinator yet..
+                For more information see <a href="https://gist.github.com/ButchersBoy/4a7272f3ac104c5b1a54">here</a> and
+                <a href="https://dragablz.net/2015/05/29/using-mahapps-dialog-boxes-in-a-mvvm-setup/">here</a>
+            </summary>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroWindowManager.#ctor(System.Collections.Generic.IEnumerable{Dapplo.CaliburnMicro.IConfigureWindowViews},System.Collections.Generic.IEnumerable{Dapplo.CaliburnMicro.IConfigureDialogViews},Dapplo.CaliburnMicro.Configuration.IUiConfiguration)">
+            <summary>
+            Default constructor taking care of initialization
+            </summary>
+        </member>
+        <member name="M:Dapplo.CaliburnMicro.Metro.MetroWindowManager.CreateCustomWindow(System.Object,System.Object,System.Boolean)">
+            <summary>
+                Create a MetroWindow
+            </summary>
+            <param name="model">the model as object</param>
+            <param name="view">the view as object</param>
+            <param name="isDialog">Is this for a dialog?</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

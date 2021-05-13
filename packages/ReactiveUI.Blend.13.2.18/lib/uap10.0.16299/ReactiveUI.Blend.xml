@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ReactiveUI.Blend</name>
+    </assembly>
+    <members>
+        <member name="T:ReactiveUI.Blend.FollowObservableStateBehavior">
+            <summary>
+            Behavior that tracks the state of an observable.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.FollowObservableStateBehavior.StateObservable">
+            <summary>
+            Gets or sets the state observable.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.FollowObservableStateBehavior.StateObservableProperty">
+            <summary>
+            The state observable dependency property.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.FollowObservableStateBehavior.TargetObject">
+            <summary>
+            Gets or sets the target object.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.FollowObservableStateBehavior.TargetObjectProperty">
+            <summary>
+            Gets or sets the target object.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.FollowObservableStateBehavior.AutoResubscribeOnError">
+            <summary>
+            Gets or sets a value indicating whether [automatic resubscribe on error].
+            </summary>
+        </member>
+        <member name="M:ReactiveUI.Blend.FollowObservableStateBehavior.OnStateObservableChanged(Windows.UI.Xaml.DependencyObject,Windows.UI.Xaml.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Called when [state observable changed].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:Windows.UI.Xaml.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:ReactiveUI.Blend.FollowObservableStateBehavior.OnDetaching">
+            <inheritdoc/>
+        </member>
+        <member name="T:ReactiveUI.Blend.Behavior`1">
+            <summary>
+            A base class which allows us to declare our own behaviors.
+            This is based on the WPF Blend SDK based Behaviors.
+            </summary>
+            <typeparam name="T">The type of DependencyObject to create a behavior for.</typeparam>
+        </member>
+        <member name="P:ReactiveUI.Blend.Behavior`1.AssociatedObject">
+            <summary>
+            Gets the associated object.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.Behavior`1.Microsoft#Xaml#Interactivity#IBehavior#AssociatedObject">
+            <inheritdoc/>
+        </member>
+        <member name="M:ReactiveUI.Blend.Behavior`1.Attach(Windows.UI.Xaml.DependencyObject)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ReactiveUI.Blend.Behavior`1.Detach">
+            <inheritdoc/>
+        </member>
+        <member name="M:ReactiveUI.Blend.Behavior`1.OnAttached">
+            <summary>
+            Called when [attached].
+            </summary>
+        </member>
+        <member name="M:ReactiveUI.Blend.Behavior`1.OnDetaching">
+            <summary>
+            Called when [detaching].
+            </summary>
+        </member>
+        <member name="T:ReactiveUI.Blend.ObservableTriggerBehavior">
+            <summary>
+            Behavior that response to triggered observables.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.ObservableTriggerBehavior.ObservableProperty">
+            <summary>
+            The observable dependency property.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.ObservableTriggerBehavior.ActionsProperty">
+            <summary>
+            The actions dependency property.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.ObservableTriggerBehavior.SourceObjectProperty">
+            <summary>
+            The source object dependency property.
+            </summary>
+        </member>
+        <member name="M:ReactiveUI.Blend.ObservableTriggerBehavior.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveUI.Blend.ObservableTriggerBehavior"/> class.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.ObservableTriggerBehavior.Actions">
+            <summary>
+            Gets the actions.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.ObservableTriggerBehavior.SourceObject">
+            <summary>
+            Gets or sets the source object.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.ObservableTriggerBehavior.AutoResubscribeOnError">
+            <summary>
+            Gets or sets a value indicating whether [automatic resubscribe on error].
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.ObservableTriggerBehavior.Observable">
+            <summary>
+            Gets or sets the observable.
+            </summary>
+        </member>
+        <member name="M:ReactiveUI.Blend.ObservableTriggerBehavior.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:ReactiveUI.Blend.ObservableTriggerBehavior.OnAttached">
+            <inheritdoc/>
+        </member>
+        <member name="M:ReactiveUI.Blend.ObservableTriggerBehavior.OnDetaching">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,1201 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dapplo.Config</name>
+    </assembly>
+    <members>
+        <member name="T:Dapplo.Config.AbcComparer">
+            <summary>
+                A StringComparer which ignores everything which is not a letter
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.AbcComparer.Instance">
+            <summary>
+            A already provided AbcComparer instance
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.AbcComparer.Compare(System.String,System.String)">
+            <summary>
+            Implement the StringComparer.Compare
+            </summary>
+            <param name="x">string</param>
+            <param name="y">string</param>
+            <returns>
+            A signed integer that indicates the relative values of x and y, as shown in the following table.
+            Less than zero: x precedes y in the sort order -or-x is null and y is not null.
+            Zero: x is equal to y -or-x and y are both null.
+            Greater than zero: x follows y in the sort order -or- y is null and x is not null.</returns>
+        </member>
+        <member name="M:Dapplo.Config.AbcComparer.Equals(System.String,System.String)">
+            <summary>
+            Check if values are equal
+            </summary>
+            <param name="x">string</param>
+            <param name="y">string</param>
+            <returns>true if x and y are the same</returns>
+        </member>
+        <member name="M:Dapplo.Config.AbcComparer.GetHashCode(System.String)">
+            <summary>
+            Returns the hashcode of the passed string after it was modified by removing all non digits or alphas, and running tolower.
+            </summary>
+            <param name="obj">string</param>
+            <returns>int with hashcode</returns>
+        </member>
+        <member name="T:Dapplo.Config.Attributes.GetSetInterceptorAttribute">
+            <summary>
+                This attribute should be used to mark a method as a getter, which in fact needs to be protected (or public)
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Attributes.GetSetInterceptorAttribute.#ctor(System.Object,System.Boolean)">
+            <summary>
+                Constructor
+            </summary>
+            <param name="order">The order of the getter method</param>
+            <param name="isSetter">bool</param>
+        </member>
+        <member name="P:Dapplo.Config.Attributes.GetSetInterceptorAttribute.Order">
+            <summary>
+                Order for the getter
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Attributes.GetSetInterceptorAttribute.IsSetter">
+            <summary>
+                Is this interceptor a setter or getter
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Attributes.TagAttribute">
+            <summary>
+                Attribute to "Tag" properties as with certain information
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Attributes.TagAttribute.#ctor(System.Object)">
+            <summary>
+            Constructor for the TagAttribute
+            </summary>
+            <param name="tag">object with value for the tag</param>
+        </member>
+        <member name="M:Dapplo.Config.Attributes.TagAttribute.#ctor(System.Object,System.Object)">
+            <summary>
+            Constructor for the TagAttribute
+            </summary>
+            <param name="tag">object with value for the tag</param>
+            <param name="tagValue">object with value for the tag value</param>
+        </member>
+        <member name="P:Dapplo.Config.Attributes.TagAttribute.Tag">
+            <summary>
+            The tag
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Attributes.TagAttribute.TagValue">
+            <summary>
+            Get (or set) the value of the tag
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.ConfigurationBase">
+            <summary>
+            Generic-less base class, solving an issue that static members are created per generic type
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.ConfigurationBase.Log">
+            <summary>
+            The base logged for all the Configuration classes
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.ConfigurationBase.Proxy">
+            <summary>
+            This is the proxy on which the user code is operating
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.ConfigurationBase.PropertiesInformation">
+            <summary>
+            This is the information for the properties, so we don't need a IDictionary lookup each time
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.ConfigurationBase.InterceptInformation">
+            <summary>
+            Information for the interceptors, so we don't need a IDictionary lookup each time
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.ConfigurationBase.InterceptInformationCache">
+            <summary>
+            Cached values for the GetSetInterceptInformation so this only needs to be calculated once per type
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.ConfigurationBase.PropertiesInformationCache">
+            <summary>
+            Cached values for the PropertiesInformation so this only needs to be calculated once per type
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase.PropertyNames">
+            <summary>
+            Get all the property names
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase.TryGetPropertyInfoFor(System.String,System.Reflection.PropertyInfo@)">
+            <summary>
+            Try get the PropertyInfo for the specified propertyName
+            </summary>
+            <param name="propertyName">string</param>
+            <param name="propertyInfo">PropertyInfo</param>
+            <returns>bool telling if the try worked</returns>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase.PropertyInfoFor(System.String)">
+            <summary>
+            Helper method to get the property info for a property
+            </summary>
+            <param name="propertyName">string</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase.Getter(System.String)">
+            <summary>
+            Get the backing value for the specified property
+            </summary>
+            <param name="propertyName">string</param>
+            <returns>TProperty</returns>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase.Setter(System.String,System.Object)">
+            <summary>
+            Set the backing value for the specified property
+            </summary>
+            <param name="propertyName">string</param>
+            <param name="newValue">object</param>
+        </member>
+        <member name="T:Dapplo.Config.ConfigurationBase`1">
+            <summary>
+            An abstract non generic ConfigurationBase.
+            This defines the API for the configuration based implementations.
+            If you want to extend the functionality, extend this (or other classes) and implement
+            a void xxxxxxxxGetter(GetInfo) or void xxxxxxxxSetter(SetInfo) which has a InterceptOrderAttribute
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.Getter(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.Setter(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.Initialize(System.Type)">
+            <summary>
+            Initialize the whole thing, this should be called from the final class
+            </summary>
+            <param name="typeToInitializeFor">Type to analyze the properties on</param>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.PropertyInitializer(System.Reflection.PropertyInfo)">
+            <summary>
+            This initializes a property
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.GetValue(System.String)">
+            <summary>
+            This is the internal way of getting information for a property
+            </summary>
+            <param name="propertyName">string</param>
+            <returns>GetInfo</returns>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.GetValue(System.Reflection.PropertyInfo)">
+            <summary>
+            This is the internal way of getting information for a property
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <returns>GetInfo</returns>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.SetValue(System.String,`0)">
+            <summary>
+            Set the backing value for the specified property
+            </summary>
+            <param name="propertyName">string</param>
+            <param name="newValue">object</param>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.SetValue(System.Reflection.PropertyInfo,`0)">
+            <summary>
+            Set the backing value for the specified property
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <param name="newValue">object</param>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.TransactionalGetter(Dapplo.Config.Intercepting.GetInfo{`0})">
+            <summary>
+                This is the implementation of the getter logic for a transactional proxy
+            </summary>
+            <param name="getInfo">GetInfo with all the information on the get call</param>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.TransactionalSetter(Dapplo.Config.Intercepting.SetInfo{`0})">
+            <summary>
+                This is the implementation of the set logic
+            </summary>
+            <param name="setInfo">SetInfo with all the information on the set call</param>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.CommitTransaction">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.IsTransactionDirty">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.RollbackTransaction">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.StartTransaction">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.InitTagProperty(System.Reflection.PropertyInfo)">
+            <summary>
+                Process the property, in our case get the tags
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.GetTagValue(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.IsTaggedWith(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.DescriptionFor(System.String)">
+            <summary>
+                Return the description for a property
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.DefaultValueFor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.RestoreToDefault(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.GetConvertedDefaultValue(System.Reflection.PropertyInfo)">
+            <summary>
+                Retrieve the default value, using the TypeConverter
+            </summary>
+            <param name="propertyInfo">Property to get the default value for</param>
+            <returns>object with the type converted default value</returns>
+        </member>
+        <member name="M:Dapplo.Config.ConfigurationBase`1.ShallowClone">
+            <inheritdoc />
+        </member>
+        <member name="T:Dapplo.Config.DictionaryConfiguration`1">
+            <summary>
+            DictionaryConfiguration is a IDictionary based configuration store
+            </summary>
+            <typeparam name="TInterface">The type of the configuration interface this class implements</typeparam>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfiguration`1.Create">
+            <summary>
+            Factory for DictionaryConfiguration implementations
+            </summary>
+            <returns>TInterface</returns>
+        </member>
+        <member name="T:Dapplo.Config.DictionaryConfigurationBase`2">
+            <summary>
+            DictionaryConfiguration is a IDictionary based configuration store
+            </summary>
+            <typeparam name="TInterface">The type of the configuration interface this class implements</typeparam>
+            <typeparam name="TProperty">The type of the property value</typeparam>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.#ctor">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.SetProperties(System.Collections.Generic.IDictionary{System.String,`1})">
+            <summary>
+            Used for cloning or resetting values
+            </summary>
+            <param name="properties"></param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.PropertyInitializer(System.Reflection.PropertyInfo)">
+            <summary>
+            This is only called when the type is initially created, per property.
+            The main use case for this, is to build caches or process attributes on properties
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+        </member>
+        <member name="P:Dapplo.Config.DictionaryConfigurationBase`2.Item(System.String)">
+            <summary>
+                Get the value for a property.
+            Note: This needs to be virtual otherwise the interface isn't implemented
+            </summary>
+            <param name="propertyName">string with key for the property to get</param>
+            <returns>object or null if not available</returns>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.Properties">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.FromDictionaryGetter(Dapplo.Config.Intercepting.GetInfo{`1})">
+            <summary>
+            Retrieves the value from the dictionary
+            </summary>
+            <param name="getInfo">GetInfo</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.SetInfoInitializer(Dapplo.Config.Intercepting.SetInfo{`1})">
+            <summary>
+            Make sure the SetInfo is correctly filled
+            </summary>
+            <param name="setInfo">SetInfo</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.ToDictionarySetter(Dapplo.Config.Intercepting.SetInfo{`1})">
+            <summary>
+            Retrieves the value from the dictionary
+            </summary>
+            <param name="setInfo">SetInfo</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.WriteProtectSetter(Dapplo.Config.Intercepting.SetInfo{`1})">
+            <summary>
+                This is the implementation of the set logic
+            </summary>
+            <param name="setInfo">SetInfo with all the information on the set call</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.DisableWriteProtect(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.IsWriteProtected(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.RemoveWriteProtection">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.StartWriteProtecting">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.StopWriteProtecting">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.WriteProtect(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.HasChangesSetter(Dapplo.Config.Intercepting.SetInfo{`1})">
+            <summary>
+                This is the implementation of the set logic
+            </summary>
+            <param name="setInfo">SetInfo with all the information on the set call</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.TrackChanges">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.DoNotTrackChanges">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.HasChanges">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.ResetHasChanges">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.Changes">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.IsChanged(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="E:Dapplo.Config.DictionaryConfigurationBase`2.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.InvokePropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+                This is the logic which is called to invoke the event.
+            </summary>
+            <param name="sender">object</param>
+            <param name="eventArgs">PropertyChangedEventArgs</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.NotifyPropertyChangedSetter(Dapplo.Config.Intercepting.SetInfo{`1})">
+            <summary>
+                This creates a NPC event if the values are changed
+            </summary>
+            <param name="setInfo">SetInfo with all the set call information</param>
+        </member>
+        <member name="E:Dapplo.Config.DictionaryConfigurationBase`2.PropertyChanging">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.InvokePropertyChanging(System.Object,System.ComponentModel.PropertyChangingEventArgs)">
+            <summary>
+                This is the logic which is called to invoke the event.
+            </summary>
+            <param name="sender">object</param>
+            <param name="eventArgs">PropertyChangingEventArgs</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.NotifyPropertyChangingSetter(Dapplo.Config.Intercepting.SetInfo{`1})">
+            <summary>
+                This creates a NPC event if the values are changing
+            </summary>
+            <param name="setInfo">SetInfo with all the set call information</param>
+        </member>
+        <member name="M:Dapplo.Config.DictionaryConfigurationBase`2.ShallowClone">
+            <inheritdoc />
+        </member>
+        <member name="T:Dapplo.Config.Extensions.ConfigurationExtensions">
+            <summary>
+                Configuration extensions
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.ConfigurationExtensions.Target``1(Dapplo.Config.Interfaces.IConfiguration)">
+            <summary>
+            A convenience extension to get the target typed. 
+            </summary>
+            <typeparam name="TTarget">Type of the target</typeparam>
+            <param name="configuration">IConfiguration</param>
+            <returns>TConfig</returns>
+        </member>
+        <member name="T:Dapplo.Config.Extensions.DictionaryExtensions">
+            <summary>
+                A few Dictionary helper extensions, e.g. used in FormatWith
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.DictionaryExtensions.AddWhenNew``2(System.Collections.Generic.IDictionary{``0,``1},``0,``1)">
+            <summary>
+                Only add when the key isn't in the dictionary yet
+            </summary>
+            <typeparam name="TKey">type for the Key</typeparam>
+            <typeparam name="TValue">type for the value</typeparam>
+            <param name="dictionary">IDictionary</param>
+            <param name="key">new key of type TKey</param>
+            <param name="value">value of type TValue</param>
+            <returns>IDictionary so fluent calls are possible</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.DictionaryExtensions.DictionaryToGenericDictionary``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.IDictionary)">
+            <summary>
+                Map a dictionary to properties
+            </summary>
+            <param name="properties">IDictionary with properties to add to</param>
+            <param name="dictionary">dictionary to process, or null due to "as" cast</param>
+            <returns>false if dictionary was null</returns>
+        </member>
+        <member name="T:Dapplo.Config.Extensions.EnumExtensions">
+            <summary>
+                Extensions for enums
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.EnumExtensions.EnumValueOf(System.Enum)">
+            <summary>
+                The returns the Value from the EnumMemberAttribute, or a ToString on the element.
+                This can be used to create a lookup from string to enum element
+            </summary>
+            <param name="enumerationItem">Enum</param>
+            <returns>string</returns>
+        </member>
+        <member name="T:Dapplo.Config.Extensions.ExpressionExtensions">
+            <summary>
+                Lambda expressions Utils
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.ExpressionExtensions.GetMemberName``1(System.Linq.Expressions.Expression{System.Action{``0}})">
+            <summary>
+                Non extension helper method to get a refactorable name of a member.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expression"></param>
+            <returns>Name of member</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.ExpressionExtensions.GetMemberName``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+                Non extension helper method to get a refactorable name of a member.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TProp"></typeparam>
+            <param name="expression"></param>
+            <returns>Name of member</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.ExpressionExtensions.GetMemberName(System.Linq.Expressions.LambdaExpression)">
+            <summary>
+                Get the name of the member in a Lambda expression
+            </summary>
+            <param name="memberSelector">LambdaExpression</param>
+            <returns>string with the member name</returns>
+        </member>
+        <member name="T:Dapplo.Config.Extensions.PropertyInfoExtension">
+            <summary>
+            Extensions for PropertyInfo
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetCategory(System.Reflection.PropertyInfo)">
+            <summary>
+                Retrieve the Category from the CategoryAttribute for the supplied PropertyInfo
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <returns>Category</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetDataMemberName(System.Reflection.PropertyInfo)">
+            <summary>
+                Retrieve the Name from the DataMemberAttribute for the supplied PropertyInfo
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <returns>Name</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetAttribute``1(System.Reflection.MemberInfo,System.Boolean,System.Boolean)">
+            <summary>
+            Retrieve an attribute from a property
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute</typeparam>
+            <param name="memberInfo">MemberInfo</param>
+            <param name="inherit">bool default true to also check inherit class attributes</param>
+            <param name="includeInterfaces">bool default true if the interfaces of the declaring type also need to be checked</param>
+            <returns>TAttribute or null</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetAttributes``1(System.Reflection.MemberInfo,System.Boolean,System.Boolean)">
+            <summary>
+            Retrieve attributes from a property
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute</typeparam>
+            <param name="memberInfo">MemberInfo</param>
+            <param name="inherit">bool default true to also check inherit class attributes</param>
+            <param name="includeInterfaces">bool default true if the interfaces of the declaring type also need to be checked</param>
+            <returns>IEnumerable of TAttribute</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetDefaultValue(System.Reflection.PropertyInfo,System.Boolean)">
+            <summary>
+                Create a default for the property.
+                This can come from the DefaultValueFor from the DefaultValueAttribute
+                Or it can be something like an empty collection
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <param name="includeInterfaces">bool default true if the interfaces of the declaring type also need to be checked</param>
+            <returns>object with a default value</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetDescription(System.Reflection.PropertyInfo)">
+            <summary>
+                Retrieve the Description from the DescriptionAttribute for the supplied PropertyInfo
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <returns>Description</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetEmitDefaultValue(System.Reflection.PropertyInfo)">
+            <summary>
+                Retrieve the EmitDefaultValue from the DataMemberAttribute for the supplied PropertyInfo
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <returns>EmitDefaultValue</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetReadOnly(System.Reflection.PropertyInfo)">
+            <summary>
+                Retrieve the IsReadOnly from the ReadOnlyAttribute for the supplied PropertyInfo
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <returns>IsReadOnly</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetTypeConverter(System.Reflection.PropertyInfo,System.Boolean)">
+            <summary>
+                Retrieve the TypeConverter from the TypeConverterAttribute for the supplied PropertyInfo
+            </summary>
+            <param name="propertyInfo">PropertyInfo</param>
+            <param name="createIfNothingSpecified">true if this should always create a converter</param>
+            <returns>TypeConverter</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.PropertyInfoExtension.GetPropertyInfo``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets property information for the specified <paramref name="property"/> expression.
+            </summary>
+            <typeparam name="TSource">Type of the parameter in the <paramref name="property"/> expression.</typeparam>
+            <typeparam name="TValue">Type of the property's value.</typeparam>
+            <param name="property">The expression from which to retrieve the property information.</param>
+            <returns>Property information for the specified expression.</returns>
+            <exception cref="T:System.ArgumentException">The expression is not understood.</exception>
+        </member>
+        <member name="T:Dapplo.Config.Extensions.StringExtensions">
+            <summary>
+                This class contains extensions for strings
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.RemoveNonAlphaDigitsToLower(System.String)">
+            <summary>
+                Helper method for converting a string to a non strict value.
+                This means, ToLowerInvariant and remove all non alpha/digits
+            </summary>
+            <param name="value">string</param>
+            <returns>string which is tolower an only has alpha and digits</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.FormatWith(System.String,System.Object[])">
+            <summary>
+                Format the string "format" with the source
+            </summary>
+            <param name="format">String with formatting, like {name}</param>
+            <param name="sources">
+                object [] with properties, if a property has the type IDictionary string,string it can used these
+                parameters too
+            </param>
+            <returns>Formatted string</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.FormatWith(System.String,System.IFormatProvider,System.Object[])">
+            <summary>
+                Format the string "format" with the source
+            </summary>
+            <param name="format">String with formatting, like {name}</param>
+            <param name="provider">IFormatProvider</param>
+            <param name="sources">
+                object with properties, if a property has the type IDictionary string,string it can used these
+                parameters too
+            </param>
+            <returns>Formatted string</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.MapToProperties(System.Collections.Generic.IDictionary{System.String,System.Object},System.Int32,System.Object)">
+            <summary>
+                Helper method to fill the properties with the values from the source
+            </summary>
+            <param name="properties">IDictionary with the possible properties</param>
+            <param name="index">int with index in the current sources</param>
+            <param name="source">object</param>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.NonStrictEquals(System.String,System.String)">
+            <summary>
+                Check if 2 strings are equal if both are made ToLower and all non alpha and digits are removed.
+            </summary>
+            <param name="value1"></param>
+            <param name="value2"></param>
+            <returns>true if they are 'equal'</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.RemoveStartEndQuotes(System.String)">
+            <summary>
+                Extension method to remove start and end quotes.
+            </summary>
+            <param name="input"></param>
+            <returns>string</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.SplitCsv(System.String,System.Char,System.Boolean)">
+            <summary>
+                Parse input for comma separated values
+            </summary>
+            <param name="input">string with comma separated values</param>
+            <param name="delimiter">string with delimiters, default is ,</param>
+            <param name="trimWhiteSpace"></param>
+            <returns>IEnumerable with value</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.StringExtensions.SplitDictionary(System.String)">
+            <summary>
+                Parse input for comma separated name=value pairs
+            </summary>
+            <param name="input">string with comma separated value pairs</param>
+            <returns>IDictionary with values</returns>
+        </member>
+        <member name="T:Dapplo.Config.Extensions.TypeExtensions">
+            <summary>
+                Extension for types
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Extensions.TypeExtensions.TypeToFriendlyName">
+            <summary>
+            Used for the generation of friendly names
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.GetAttribute``1(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Retrieve an attribute from a type
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute</typeparam>
+            <param name="type">Type</param>
+            <param name="inherit">bool default true to also check inherit class attributes</param>
+            <param name="includeInterfaces">bool default true if the interfaces of the declaring type also need to be checked</param>
+            <returns>TAttribute or null</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.GetAttributes``1(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Retrieve attributes from a Type
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute</typeparam>
+            <param name="type">Type</param>
+            <param name="inherit">bool default true to also check inherit class attributes</param>
+            <param name="includeInterfaces">bool default true if the interfaces of the declaring type also need to be checked</param>
+            <returns>IEnumerable of TAttribute</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.AddDefaultConverter(System.Type,System.Type)">
+            <summary>
+                Add the default converter for the specified type
+            </summary>
+            <param name="type"></param>
+            <param name="typeConverter"></param>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.Cast(System.Type,System.Object)">
+            <summary>
+            Cast the supplied object to a certain type
+            </summary>
+            <param name="type">Type to cast to</param>
+            <param name="data">object to cast</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.ConvertOrCastValueToType``1(System.Object,System.ComponentModel.TypeConverter,System.ComponentModel.ITypeDescriptorContext,System.Boolean)">
+            <summary>
+                Generic version of the same method with Type parameter,
+            </summary>
+            <typeparam name="T">target type</typeparam>
+            <param name="value"></param>
+            <param name="typeConverter">A TypeConverter can be passed for special cases</param>
+            <param name="typeDescriptorContext">A TypeDescriptorContext can be passed for special cases</param>
+            <param name="convertFrom"></param>
+            <returns>T</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.ConvertOrCastValueToType(System.Type,System.Object,System.ComponentModel.TypeConverter,System.ComponentModel.ITypeDescriptorContext,System.Boolean)">
+            <summary>
+                Convert or Cast the value TO targetType
+            </summary>
+            <param name="targetType">target type</param>
+            <param name="value">value to convert</param>
+            <param name="typeConverter">A TypeConverter can be passed for special cases</param>
+            <param name="typeDescriptorContext">A TypeDescriptorContext can be passed for special cases</param>
+            <param name="convertFrom">
+                True: the TypeConverter is called with convertFrom, false the TypeConverter is called with
+                convertTo
+            </param>
+            <returns>object as targetType, or null if this wasn't possible</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.CreateInstance(System.Type)">
+            <summary>
+                Create an instance of the supplied type
+            </summary>
+            <param name="valueType">Type which should be created</param>
+            <returns>instance of the type</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.GetConverter(System.Type)">
+            <summary>
+                Get the TypeConverter for the Type
+            </summary>
+            <param name="valueType">Type</param>
+            <returns>TypeConverter</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.TryConvert(System.Object,System.Type,System.ComponentModel.TypeConverter,System.ComponentModel.ITypeDescriptorContext,System.Boolean,System.Object@)">
+            <summary>
+                A helper method, this will try to convert the value to the target type with the supplied converter
+            </summary>
+            <param name="value"></param>
+            <param name="targetType"></param>
+            <param name="typeConverter"></param>
+            <param name="typeDescriptorContext"></param>
+            <param name="convertFrom"></param>
+            <param name="outValue">converted value</param>
+            <returns>true if success</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.FriendlyName(System.Type)">
+            <summary>
+            Get the name of a type which is readable, even if generics are used.
+            </summary>
+            <param name="type">Type</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:Dapplo.Config.Extensions.TypeExtensions.Default(System.Type)">
+            <summary>
+            Create a default value for a type, this usually is "null" for reference type, but for other, e.g. bool it's false or for int it's 0
+            This extension method takes care of this.
+            
+            Note: this differs a LOT from CreateInstance, as there we get an instance (e.g. for IList of string an empty List of string).
+            </summary>
+            <param name="type">Type to create a default for</param>
+            <returns>Default for type</returns>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.ConfigProxy">
+            <summary>
+            This wraps interface calls to a intercepted implementation
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.ConfigProxy.Target">
+            <summary>
+            This is the target for the proxy
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Intercepting.ConfigProxy.Invoke(System.Reflection.MethodInfo,System.Object[])">
+            <summary>
+            Implement invoke of the DispatchProxy
+            </summary>
+            <param name="targetMethod">MethodInfo</param>
+            <param name="args">object array</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:Dapplo.Config.Intercepting.ConfigProxy.Create``1(Dapplo.Config.ConfigurationBase)">
+            <summary>
+            Factory for ConfigProxy object
+            </summary>
+            <typeparam name="TInterface">type of the interface to implement</typeparam>
+            <param name="target">ConfigurationBase</param>
+            <returns></returns>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.GetInfo`1">
+            <summary>
+            This provides the value for a get interceptor
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.GetInfo`1.HasValue">
+            <summary>
+                The value of the property
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.GetInfo`1.Value">
+            <summary>
+                The value of the property
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.GetSetInfo">
+            <summary>
+            Information for a Get or Set invocation
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.GetSetInfo.CanContinue">
+            <summary>
+                Can the proxy continue with other getter/setters?
+                This should be set to false if a getter/setter implementation wants to throw an exception or thinks there should be
+                no more others.
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.GetSetInfo.PropertyInfo">
+            <summary>
+               PropertyInfo of the property that is being get/set
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.GetSetInterceptInformation">
+            <summary>
+            This is the type information for configuration types.
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.GetSetInterceptInformation.SetterMethods">
+            <summary>
+            Store of setter methods
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.GetSetInterceptInformation.GetterMethods">
+            <summary>
+            Store of setter methods
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Intercepting.GetSetInterceptInformation.#ctor(System.Type)">
+            <summary>
+            Fill all the values
+            </summary>
+            <param name="containingType">Type</param>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.GetterOrders">
+            <summary>
+            This defines the order in which the setters are called
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.GetterOrders.Transaction">
+            <summary>
+            This is the order for the getter which implements the ITransactionalProperties
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.GetterOrders.Dictionary">
+            <summary>
+            This is the order for the setter which places the value into the dictionary
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.PropertiesInformation">
+            <summary>
+            This is the type information for configuration types.
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.PropertiesInformation.PropertyInfos">
+            <summary>
+            Store of PropertyInfos for every property
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Intercepting.PropertiesInformation.#ctor(System.Type)">
+            <summary>
+            Fill all the values
+            </summary>
+            <param name="interfaceType">Type</param>
+        </member>
+        <member name="M:Dapplo.Config.Intercepting.PropertiesInformation.PropertyInfoFor(System.String)">
+            <summary>
+            Helper method to find the PropertyInfo
+            </summary>
+            <param name="propertyName">string</param>
+            <returns>PropertyInfo</returns>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.PropertyChangedEventArgsEx">
+            <summary>
+            This extends the PropertyChangedEventArgs with additional information
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.PropertyChangedEventArgsEx.OldValue">
+            <summary>
+            The value before the change was applied
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.PropertyChangedEventArgsEx.NewValue">
+            <summary>
+            The value after the change is applied
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Intercepting.PropertyChangedEventArgsEx.#ctor(System.String,System.Object,System.Object)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="propertyName">string</param>
+            <param name="oldValue">object</param>
+            <param name="newValue">object</param>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.PropertyChangingEventArgsEx">
+            <summary>
+            This extends the PropertyChangingEventArgs with additional information
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.PropertyChangingEventArgsEx.OldValue">
+            <summary>
+            The value before the change which is coming
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.PropertyChangingEventArgsEx.NewValue">
+            <summary>
+            The value when the change is applied
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Intercepting.PropertyChangingEventArgsEx.#ctor(System.String,System.Object,System.Object)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="propertyName">string</param>
+            <param name="oldValue">object</param>
+            <param name="newValue">object</param>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.SetInfo`1">
+            <summary>
+            This provides the value for a set interceptor
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.SetInfo`1.HasOldValue">
+            <summary>
+                Does property have an old value?
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.SetInfo`1.NewValue">
+            <summary>
+                The new value for the property
+            </summary>
+        </member>
+        <member name="P:Dapplo.Config.Intercepting.SetInfo`1.OldValue">
+            <summary>
+                The old value of the property, if any (see HasOldValue)
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Intercepting.SetterOrders">
+            <summary>
+            This defines the order in which the setters are called
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.SetterOrders.WriteProtect">
+            <summary>
+            This is the order for the setter which implements the IWriteProtectProperties
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.SetterOrders.SetInfoInitializer">
+            <summary>
+            This is the order for the setter which implements the INotifyPropertyChanging
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.SetterOrders.NotifyPropertyChanging">
+            <summary>
+            This is the order for the setter which implements the INotifyPropertyChanging
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.SetterOrders.Transaction">
+            <summary>
+            This is the order for the setter which implements the ITransactionalProperties
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.SetterOrders.HasChanges">
+            <summary>
+            This is the order for the setter which implements the IHasChanges
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.SetterOrders.Dictionary">
+            <summary>
+            This is the order for the setter which places the value into the dictionary
+            </summary>
+        </member>
+        <member name="F:Dapplo.Config.Intercepting.SetterOrders.NotifyPropertyChanged">
+            <summary>
+            This is the order for the setter which implements the INotifyPropertyChanged
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IConfiguration">
+            <summary>
+            Marker interface
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IConfiguration`1">
+            <summary>
+            The base interface for configuration classes
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IConfiguration`1.Properties">
+            <summary>
+            Return all properties with their current value
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IConfiguration`1.PropertyNames">
+            <summary>
+            Returns all the property names
+            </summary>
+            <returns>IEnumerable with string</returns>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IDefaultValue">
+            <summary>
+                Extend your property interface with this, and all default values specified with the DefaultValueAttribute will be
+                applied
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IDefaultValue.DefaultValueFor(System.String)">
+            <summary>
+                Return the default value of the property
+            </summary>
+            <param name="propertyName"></param>
+            <returns>the default value, null if none</returns>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IDefaultValue.RestoreToDefault(System.String)">
+            <summary>
+                Restore the property value back to its default
+            </summary>
+            <param name="propertyName"></param>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IDescription">
+            <summary>
+                Extend your property interface with this, and you can read the DescriptionAttribute
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IDescription.DescriptionFor(System.String)">
+            <summary>
+                Return the description of the property
+            </summary>
+            <param name="propertyName"></param>
+            <returns>the description, null if none</returns>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IHasChanges">
+            <summary>
+                Extending the to be property interface with this, adds a way of know if there were changes sind the last reset
+                Is used internally in the IniConfig to detect if a write is needed
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IHasChanges.TrackChanges">
+            <summary>
+            This can be used to turn on change tracking
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IHasChanges.DoNotTrackChanges">
+            <summary>
+            This can be used to stop change tracking
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IHasChanges.HasChanges">
+            <summary>
+                Check if there are changes pending
+            </summary>
+            <returns>true when there are changes</returns>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IHasChanges.ResetHasChanges">
+            <summary>
+                Reset the has changes flag
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IHasChanges.Changes">
+            <summary>
+            Retrieve all changes, 
+            </summary>
+            <returns>ISet with the property values</returns>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IHasChanges.IsChanged(System.String)">
+            <summary>
+            Test if a property has been changed since the last reset
+            </summary>
+            <param name="propertyName"></param>
+            <returns>bool</returns>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IShallowCloneable">
+            <summary>
+            The interface for the ShallowClone method.
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IShallowCloneable.ShallowClone">
+            <summary>
+            Make a memberwise clone of the object, this is "shallow".
+            </summary>
+            <returns>"Shallow" Cloned instance</returns>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IShallowCloneable`1">
+            <summary>
+            The interface for the generic ShallowClone method.
+            </summary>
+            <typeparam name="T">Type of the copy which is returned</typeparam>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IShallowCloneable`1.ShallowClone">
+            <summary>
+            Make a memberwise clone of the object, this is "shallow".
+            </summary>
+            <returns>"Shallow" Cloned instance of type T</returns>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.ITagging">
+            <summary>
+                Interface which your interface needs to implement to be able to see if a property is tagged
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.ITagging.GetTagValue(System.String,System.Object)">
+            <summary>
+                Retrieve the value for tag
+            </summary>
+            <param name="propertyName">Name of the property to get the tag value</param>
+            <param name="tag">The tag value to get</param>
+            <returns>Tagged value or null</returns>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.ITagging.IsTaggedWith(System.String,System.Object)">
+            <summary>
+                Checks if the supplied expression resolves to a property which has the expert attribute
+            </summary>
+            <param name="propertyName"></param>
+            <param name="tag">Tag to check if the property is tagged with</param>
+            <returns>true if the property has the expert attribute, else false</returns>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.ITransactionalProperties">
+            <summary>
+                Extending the to be property interface with this, adds transactional support
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.ITransactionalProperties.CommitTransaction">
+            <summary>
+                Apply the stored changes from the cache to the property object
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.ITransactionalProperties.IsTransactionDirty">
+            <summary>
+                Check if there are changes pending
+            </summary>
+            <returns>true when there are changes</returns>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.ITransactionalProperties.RollbackTransaction">
+            <summary>
+                Cancel the transaction, this will clear the stored changes
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.ITransactionalProperties.StartTransaction">
+            <summary>
+                This method will start the transaction, all changes will be stored in a separate cache.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Config.Interfaces.IWriteProtectProperties">
+            <summary>
+                Extending the to be property interface with this, adds write protection
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IWriteProtectProperties.DisableWriteProtect(System.String)">
+            <summary>
+                Disable the write protection of the supplied property
+            </summary>
+            <param name="propertyName">Name of the property to disable the write protect for</param>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IWriteProtectProperties.IsWriteProtected(System.String)">
+            <summary>
+                Test if the supplied property is write protected
+            </summary>
+            <param name="propertyName">Name of the property</param>
+            <returns>true if the property is protected</returns>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IWriteProtectProperties.RemoveWriteProtection">
+            <summary>
+                Remove the write protection
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IWriteProtectProperties.StartWriteProtecting">
+            <summary>
+                After calling this method, every changed property will be write-protected
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IWriteProtectProperties.StopWriteProtecting">
+            <summary>
+                End the write protecting
+            </summary>
+        </member>
+        <member name="M:Dapplo.Config.Interfaces.IWriteProtectProperties.WriteProtect(System.String)">
+            <summary>
+                Write protect the supplied property
+            </summary>
+            <param name="propertyName">Name of the property to write protect</param>
+        </member>
+    </members>
+</doc>

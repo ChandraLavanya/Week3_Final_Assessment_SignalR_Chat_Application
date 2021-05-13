@@ -1,0 +1,917 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dapplo.Windows.Dpi</name>
+    </assembly>
+    <members>
+        <member name="T:Dapplo.Windows.Dpi.BitmapScaleHandler">
+            <summary>
+                Factory for the generic BitmapScaleHandler
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler.Create``2(Dapplo.Windows.Dpi.DpiHandler,System.Func{``0,System.UInt32,``1},System.Func{``1,System.UInt32,``1})">
+            <summary>
+                Create with your own providing logic
+            </summary>
+            <param name="dpiHandler">DpiHandler</param>
+            <param name="bitmapProvider">A function which provides the requested bitmap</param>
+            <param name="bitmapScaler">A function to provide a newly scaled bitmap</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler.WithComponentResourceManager``1(Dapplo.Windows.Dpi.DpiHandler,System.Type,System.Func{``0,System.UInt32,``0})">
+            <summary>
+                Create a BitmapScaleHandler with a ComponentResourceManager as resource provider
+            </summary>
+            <param name="dpiHandler">DpiHandler</param>
+            <param name="resourceType">Type to create the ComponentResourceManager for</param>
+            <param name="bitmapScaler">A function to provide a newly scaled bitmap, you can return the provide bitmap if you want to keep it as is</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler.SimpleBitmapScaler(System.Drawing.Bitmap,System.UInt32)">
+            <summary>
+            A simple scaling routine
+            </summary>
+            <param name="bitmap">Bitmap to scale</param>
+            <param name="dpi">uint with the dpi value to scale for</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.BitmapScaleHandler`2">
+            <summary>
+                This provides bitmaps scaled according to the current DPI.
+                If the DPI changes, it will reapply the bitmaps and dispose the old ones (if needed).
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.BitmapScaleHandler`2.ApplyActions">
+            <summary>
+                A list of actions which apply the bitmap
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.BitmapScaleHandler`2.BitmapProvider">
+            <summary>
+                This function retrieves the bitmap
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.BitmapScaleHandler`2.BitmapScaler">
+            <summary>
+                This function scales the bitmap (if needed)
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.AddApplyAction(System.Action{`1},`0,System.Boolean)">
+            <summary>
+                Add an action which applies a bitmap
+            </summary>
+            <param name="apply">Action which assigns a bitmap</param>
+            <param name="imageKey">key of the image</param>
+            <param name="execute">Execute specifies if the assignment needs to be done right away</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.AddTarget(System.Windows.Forms.Button,`0,System.Func{`1,System.Drawing.Bitmap},System.Boolean)">
+            <summary>
+                Add a Button as a Bitmap target
+            </summary>
+            <param name="button">Button</param>
+            <param name="imageKey">key of the image</param>
+            <param name="valueConverter">func to deliver bitmaps for buttons</param>
+            <param name="execute">Execute specifies if the assignment needs to be done right away</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.AddTarget(System.Windows.Forms.ToolStripItem,`0,System.Func{`1,System.Drawing.Bitmap},System.Boolean)">
+            <summary>
+                Add a ButtonToolStripItem as a Bitmap target
+            </summary>
+            <param name="toolStripItem">ToolStripItem</param>
+            <param name="imageKey">key of the image</param>
+            <param name="valueConverter"></param>
+            <param name="execute">Execute specifies if the assignment needs to be done right away</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.Dispose">
+            <summary>
+                Dispose implementation
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.ProcessDpiChange(Dapplo.Windows.Dpi.DpiChangeInfo)">
+            <summary>
+                Processes DPI Change information
+            </summary>
+            <param name="dpiChangeInfo">DpiChangeInfo with the DPI information</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.Finalize">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.GetBitmap(`0)">
+            <summary>
+                Get bitmaps for displaying
+            </summary>
+            <param name="imageKey">string with the name</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.Initialize(Dapplo.Windows.Dpi.DpiHandler,System.Func{`0,System.UInt32,`1},System.Func{`1,System.UInt32,`1})">
+            <summary>
+                Helper method to initialize
+            </summary>
+            <param name="dpiHandler">DpiHandler</param>
+            <param name="bitmapProvider">A function which provides the requested bitmap</param>
+            <param name="bitmapScaler">A function to provide a newly scaled bitmap</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.ReleaseUnmanagedResources">
+            <summary>
+                Cleanup the images, they are no longer needed
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.BitmapScaleHandler`2.RemoveTarget(System.Object)">
+            <summary>
+                Remove a previously added target for being updated.
+                This will not update the image, or remove it right away.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.DpiChangeInfo">
+            <summary>
+            Stores information about a DPI change
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.DpiChangeInfo.PreviousDpi">
+            <summary>
+            The DPI from before the change
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.DpiChangeInfo.NewDpi">
+            <summary>
+            The new DPI
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiChangeInfo.#ctor(System.UInt32,System.UInt32)">
+            <summary>
+            Creates a DpiChangeInfo
+            </summary>
+            <param name="previousDpi">uint</param>
+            <param name="newDpi">uint</param>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.DpiHandler">
+            <summary>
+                This handles DPI changes see 
+                <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn469266.aspx">Writing DPI-Aware Desktop and Win32 Applications</a>
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.DpiHandler.DefaultScreenDpi">
+            <summary>
+                This is the default DPI for the screen
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.#ctor(System.Boolean)">
+            <summary>
+                Create a DpiHandler
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.DpiHandler.Dpi">
+            <summary>
+                Retrieve the current DPI for the UI element whic is related to this DpiHandler
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.DpiHandler.MessageHandler">
+            <summary>
+                This is that which handles the windows messages, and needs to be disposed
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.DpiHandler.OnDpiChanged">
+            <summary>
+                This subject publishes whenever the dpi settings are changed, with some details
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.HandleWindowMessages(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <summary>
+                Message handler of the Per_Monitor_DPI_Aware window.
+                The handles the WM_DPICHANGED message and adjusts window size, graphics and text based on the DPI of the monitor.
+                The window message provides the new window size (lparam) and new DPI (wparam)
+                See
+                <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn312083(v=vs.85).aspx">WM_DPICHANGED message</a>
+            </summary>
+            <param name="hWnd">IntPtr with the hWnd</param>
+            <param name="msg">The Windows message</param>
+            <param name="wParam">IntPtr</param>
+            <param name="lParam">IntPtr</param>
+            <param name="handled">ref bool</param>
+            <returns>IntPtr</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.HandleWindowMessages(Dapplo.Windows.Messages.WindowMessageInfo)">
+            <summary>
+                Message handler of the Per_Monitor_DPI_Aware window.
+                The handles the WM_DPICHANGED message and adjusts window size, graphics and text based on the DPI of the monitor.
+                The window message provides the new window size (lparam) and new DPI (wparam)
+                See
+                <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn312083(v=vs.85).aspx">WM_DPICHANGED message</a>
+            </summary>
+            <param name="windowMessageInfo">WindowMessageInfo</param>
+            <returns>IntPtr</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.HandleContextMenuMessages(Dapplo.Windows.Messages.WindowMessageInfo)">
+            <summary>
+                Message handler of the DPI Aware ContextMenuStrip, this is simplified compared to the normal
+                The handles the WM_DPICHANGED message and adjusts window size, graphics and text based on the DPI of the monitor.
+                The window message provides the new window size (lparam) and new DPI (wparam)
+                See
+                <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn312083(v=vs.85).aspx">WM_DPICHANGED message</a>
+            </summary>
+            <param name="windowMessageInfo">WindowMessageInfo</param>
+            <returns>IntPtr</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.DpiScaleFactor(System.UInt32)">
+            <summary>
+            Calculate a DPI scale factor
+            </summary>
+            <param name="dpi">uint</param>
+            <returns>double</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithDpi(System.Double,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied number according to the supplied dpi
+            </summary>
+            <param name="someNumber">double with e.g. the width 16 for 16x16 images</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>double with the scaled number</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithDpi(System.Int32,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied number according to the supplied dpi
+            </summary>
+            <param name="number">int with e.g. 16 for 16x16 images</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>Scaled width</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithDpi(Dapplo.Windows.Common.Structs.NativeSize,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied NativeSize according to the supplied dpi
+            </summary>
+            <param name="size">NativeSize to resize</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSize scaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithDpi(Dapplo.Windows.Common.Structs.NativePoint,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied NativePoint according to the supplied dpi
+            </summary>
+            <param name="size">NativePoint to resize</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativePoint scaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithDpi(Dapplo.Windows.Common.Structs.NativeSizeFloat,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied NativeSizeFloat according to the supplied dpi
+            </summary>
+            <param name="size">NativeSizeFloat to resize</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSize scaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithCurrentDpi(System.Double,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied number to the current dpi
+            </summary>
+            <param name="someNumber">double with e.g. a width like 16 for 16x16 images</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>double with scaled number</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithCurrentDpi(System.Int32,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied number to the current dpi
+            </summary>
+            <param name="someNumber">int with e.g. a width like 16 for 16x16 images</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>int with scaled number</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativeSize,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied NativeSize to the current dpi
+            </summary>
+            <param name="size">NativeSize to scale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSize scaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativeSizeFloat,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied NativeSizeFloat to the current dpi
+            </summary>
+            <param name="size">NativeSizeFloat to scale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSizeFloat scaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativePoint,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied NativePoint to the current dpi
+            </summary>
+            <param name="point">NativePoint to scale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativePoint scaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.ScaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativePointFloat,System.Func{System.Double,System.Double})">
+            <summary>
+                Scale the supplied NativePointFloat to the current dpi
+            </summary>
+            <param name="point">NativePointFloat to scale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativePointFloat scaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.DpiUnscaleFactor(System.UInt32)">
+            <summary>
+            Calculate a DPI unscale factor
+            </summary>
+            <param name="dpi">uint</param>
+            <returns>double</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithDpi(System.Double,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied number according to the supplied dpi
+            </summary>
+            <param name="someNumber">double with e.g. the scaled width</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>double with the unscaled number</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithDpi(System.Int32,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+               Unscale the supplied number according to the supplied dpi
+            </summary>
+            <param name="number">int with a scaled width</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>Unscaled width</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithDpi(Dapplo.Windows.Common.Structs.NativeSize,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied NativeSize according to the supplied dpi
+            </summary>
+            <param name="size">NativeSize to unscale</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSize unscaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithDpi(Dapplo.Windows.Common.Structs.NativePoint,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied NativePoint according to the supplied dpi
+            </summary>
+            <param name="size">NativePoint to unscale</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativePoint unscaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithDpi(Dapplo.Windows.Common.Structs.NativeSizeFloat,System.UInt32,System.Func{System.Double,System.Double})">
+            <summary>
+                unscale the supplied NativeSizeFloat according to the supplied dpi
+            </summary>
+            <param name="size">NativeSizeFloat to resize</param>
+            <param name="dpi">current dpi, normal is 96.</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSize unscaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithCurrentDpi(System.Double,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied number to the current dpi
+            </summary>
+            <param name="someNumber">double with e.g. a width like 16 for 16x16 images</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>double with unscaled number</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithCurrentDpi(System.Int32,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied number to the current dpi
+            </summary>
+            <param name="someNumber">int with e.g. a width like 16 for 16x16 images</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>int with unscaled number</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativeSize,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied NativeSize to the current dpi
+            </summary>
+            <param name="size">NativeSize to unscale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSize unscaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativeSizeFloat,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied NativeSizeFloat to the current dpi
+            </summary>
+            <param name="size">NativeSizeFloat to unscale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativeSizeFloat unscaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativePoint,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied NativePoint to the current dpi
+            </summary>
+            <param name="point">NativePoint to unscale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativePoint unscaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.UnscaleWithCurrentDpi(Dapplo.Windows.Common.Structs.NativePointFloat,System.Func{System.Double,System.Double})">
+            <summary>
+                Unscale the supplied NativePointFloat to the current dpi
+            </summary>
+            <param name="point">NativePointFloat to unscale</param>
+            <param name="scaleModifier">A function which can modify the scale factor</param>
+            <returns>NativePointFloat unscaled</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.TryEnableNonClientDpiScaling(System.IntPtr)">
+            <summary>
+            public wrapper for EnableNonClientDpiScaling, this also checks if the function is available.
+            </summary>
+            <param name="hWnd">IntPtr</param>
+            <returns>true if it worked</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.DpiHandler.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Enums.DialogDpiChangeBehaviors">
+            <summary>
+               In Per Monitor v2 contexts, dialogs will automatically respond to DPI changes by resizing themselves and re-computing the positions of their child windows (here referred to as re-layouting). This enum works in conjunction with SetDialogDpiChangeBehavior in order to override the default DPI scaling behavior for dialogs.
+               This does not affect DPI scaling behavior for the child windows of dialogs(beyond re-layouting), which is controlled by DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DialogDpiChangeBehaviors.Default">
+            <summary>
+               The default behavior of the dialog manager. In response to a DPI change, the dialog manager will re-layout each control, update the font on each control, resize the dialog, and update the dialog's own font.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DialogDpiChangeBehaviors.DisableAll">
+            <summary>
+                Prevents the dialog manager from responding to WM_GETDPISCALEDSIZE and WM_DPICHANGED, disabling all default DPI scaling behavior.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DialogDpiChangeBehaviors.DisableResize">
+            <summary>
+                Prevents the dialog manager from resizing the dialog in response to a DPI change.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DialogDpiChangeBehaviors.DisableControlRelayout">
+            <summary>
+                Prevents the dialog manager from re-layouting all of the dialogue's immediate children HWNDs in response to a DPI change.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Enums.DialogScalingBehaviors">
+             <summary>
+                Describes per-monitor DPI scaling behavior overrides for child windows within dialogs. The values in this enumeration are bitfields and can be combined.
+            
+             This enum is used with SetDialogControlDpiChangeBehavior in order to override the default per-monitor DPI scaling behavior for a child window within a dialog.
+             
+             These settings only apply to individual controls within dialogs. The dialog-wide per-monitor DPI scaling behavior of a dialog is controlled by DIALOG_DPI_CHANGE_BEHAVIORS.
+             </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DialogScalingBehaviors.Default">
+            <summary>
+               The default behavior of the dialog manager. The dialog managed will update the font, size, and position of the child window on DPI changes.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DialogScalingBehaviors.DisableFontUpdate">
+            <summary>
+                Prevents the dialog manager from sending an updated font to the child window via WM_SETFONT in response to a DPI change.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DialogScalingBehaviors.DisableRelayout">
+            <summary>
+                Prevents the dialog manager from resizing and repositioning the child window in response to a DPI change.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Enums.DpiAwareness">
+            <summary>
+                Identifies the dots per inch (dpi) setting for a thread, process, or window.
+                Can be used everywhere ProcessDpiAwareness is passed.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwareness.Invalid">
+            <summary>
+                Invalid DPI awareness. This is an invalid DPI awareness value.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwareness.Unaware">
+            <summary>
+                DPI unaware.
+                This process does not scale for DPI changes and is always assumed to have a scale factor of 100% (96 DPI).
+                It will be automatically scaled by the system on any other DPI setting.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwareness.SystemAware">
+            <summary>
+                System DPI aware.
+                This process does not scale for DPI changes.
+                It will query for the DPI once and use that value for the lifetime of the process.
+                If the DPI changes, the process will not adjust to the new DPI value.
+                It will be automatically scaled up or down by the system when the DPI changes from the system value.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwareness.PerMonitorAware">
+            <summary>
+                Per monitor DPI aware.
+                This process checks for the DPI when it is created and adjusts the scale factor whenever the DPI changes.
+                These processes are not automatically scaled by the system.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Enums.DpiAwarenessContext">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwarenessContext.Unaware">
+            <summary>
+                DPI unaware.
+                This window does not scale for DPI changes and is always assumed to have a scale factor of 100% (96 DPI).
+                It will be automatically scaled by the system on any other DPI setting.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwarenessContext.SystemAware">
+            <summary>
+                System DPI aware.
+                This window does not scale for DPI changes.
+                It will query for the DPI once and use that value for the lifetime of the process.
+                If the DPI changes, the process will not adjust to the new DPI value.
+                It will be automatically scaled up or down by the system when the DPI changes from the system value.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwarenessContext.PerMonitorAware">
+            <summary>
+                Per monitor DPI aware.
+                This window checks for the DPI when it is created and adjusts the scale factor whenever the DPI changes.
+                These processes are not automatically scaled by the system.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiAwarenessContext.PerMonitorAwareV2">
+            <summary>
+                Also known as Per Monitor v2. An advancement over the original per-monitor DPI awareness mode, which enables applications to access new DPI-related scaling behaviors on a per top-level window basis.
+                Per Monitor v2 was made available in the Creators Update of Windows 10, and is not available on earlier versions of the operating system.
+                The additional behaviors introduced are as follows:
+                * Child window DPI change notifications - In Per Monitor v2 contexts, the entire window tree is notified of any DPI changes that occur.
+                * Scaling of non-client area - All windows will automatically have their non-client area drawn in a DPI sensitive fashion. Calls to EnableNonClientDpiScaling are unnecessary.
+                * Scaling of Win32 menus - All NTUSER menus created in Per Monitor v2 contexts will be scaling in a per-monitor fashion.
+                * Dialog Scaling - Win32 dialogs created in Per Monitor v2 contexts will automatically respond to DPI changes.
+                * Improved scaling of comctl32 controls - Various comctl32 controls have improved DPI scaling behavior in Per Monitor v2 contexts.
+                * Improved theming behavior - UxTheme handles opened in the context of a Per Monitor v2 window will operate in terms of the DPI associated with that window.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Enums.DpiHostingBehavior">
+            <summary>
+                Identifies the DPI hosting behavior for a window.
+                This behavior allows windows created in the thread to host child windows with a different DPI_AWARENESS_CONTEXT
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiHostingBehavior.Invalid">
+            <summary>
+                Invalid DPI hosting behavior. This usually occurs if the previous SetThreadDpiHostingBehavior call used an invalid parameter.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiHostingBehavior.Default">
+            <summary>
+                Default DPI hosting behavior. The associated window behaves as normal, and cannot create or re-parent child windows with a different DPI_AWARENESS_CONTEXT.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.DpiHostingBehavior.Mixed">
+            <summary>
+                Mixed DPI hosting behavior. This enables the creation and re-parenting of child windows with different DPI_AWARENESS_CONTEXT. These child windows will be independently scaled by the OS.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Enums.MonitorDpiType">
+            <summary>
+                See
+                <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn280511(v=vs.85).aspx">
+                    MONITOR_DPI_TYPE
+                    enumeration
+                </a>
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.MonitorDpiType.EffectiveDpi">
+            <summary>
+                The effective DPI.
+                This value should be used when determining the correct scale factor for scaling UI elements.
+                This incorporates the scale factor set by the user for this specific display.
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.MonitorDpiType.AngularDpi">
+            <summary>
+                The angular DPI.
+                This DPI ensures rendering at a compliant angular resolution on the screen.
+                This does not include the scale factor set by the user for this specific display
+            </summary>
+        </member>
+        <member name="F:Dapplo.Windows.Dpi.Enums.MonitorDpiType.RawDpi">
+            <summary>
+                The raw DPI.
+                This value is the linear DPI of the screen as measured on the screen itself.
+                Use this value when you want to read the pixel density and not the recommended scaling setting.
+                This does not include the scale factor set by the user for this specific display and is not guaranteed to be a
+                supported DPI value.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Forms.DpiAwareForm">
+            <summary>
+            This is a DPI-Aware Form, making DPI support very easy: just extend your Form from this
+            </summary>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.Forms.DpiAwareForm.FormDpiHandler">
+            <summary>
+            The DpiHandler used for this form
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Forms.DpiAwareForm.CreateHandle">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Forms.DpiAwareForm.OnHandleCreated(System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Forms.DpiAwareForm.WndProc(System.Windows.Forms.Message@)">
+            <summary>
+            Override the WndProc to make sure the DpiHandler is informed of the WM_NCCREATE message
+            </summary>
+            <param name="m">Message</param>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Forms.DpiUnawareForm">
+            <summary>
+            This is a DPI-Unaware Form, making the form use the Windows build-in scaling, even if the application is DPI Aware.
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Forms.DpiUnawareForm.CreateHandle">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Forms.DpiUnawareForm.OnHandleCreated(System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Forms.FormsDpiExtensions">
+            <summary>
+                Extensions for Windows Form
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Forms.FormsDpiExtensions.AttachDpiHandler(System.Windows.Forms.Form)">
+            <summary>
+                Handle DPI changes for the specified Form
+                Using this DOES NOT enable dpi scaling in the non client area, for this you will need to call:
+                DpiHandler.TryEnableNonClientDpiScaling(this.Handle) from the WndProc in the WM_NCCREATE message.
+                It's better to extend DpiAwareForm, which does this for you. 
+            </summary>
+            <param name="form">Control</param>
+            <returns>DpiHandler</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Forms.FormsDpiExtensions.AttachDpiHandler(System.Windows.Forms.ContextMenuStrip)">
+            <summary>
+                Handle DPI changes for the specified ContextMenuStrip
+            </summary>
+            <param name="contextMenuStrip">ContextMenuStrip</param>
+            <returns>DpiHandler</returns>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.NativeDpiMethods">
+            <summary>
+            Some of the native DPI related Win32 API methods
+            Not all have been implemented yet, see <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/hh447398.aspx">High DPI reference</a>
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.EnableDpiAware">
+            <summary>
+            Make the current process DPI Aware, this should be done via the manifest but sometimes this is not possible.
+            </summary>
+            <returns>bool true if it was possible to change the DPI awareness</returns>
+        </member>
+        <member name="P:Dapplo.Windows.Dpi.NativeDpiMethods.IsDpiAware">
+            <summary>
+                Check if the process is DPI Aware, an DpiHandler doesn't make sense if not.
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetDpi(System.IntPtr)">
+            <summary>
+                Retrieve the DPI value for the supplied window handle
+            </summary>
+            <param name="hWnd">IntPtr</param>
+            <returns>dpi value</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.DefaultScopedThreadDpiAwarenessContext">
+            <summary>
+            Create a scope for the DpiAwarenessContext which enables Dpi Aware
+            </summary>
+            <returns>IDisposable</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.ScopedThreadDpiAwarenessContext(Dapplo.Windows.Dpi.Enums.DpiAwarenessContext,System.Nullable{Dapplo.Windows.Dpi.Enums.DpiAwarenessContext})">
+            <summary>
+            Create a scope for the DpiAwarenessContext
+            </summary>
+            <param name="dpiAwarenessContext">DpiAwarenessContext</param>
+            <param name="alternativeAwarenessContext">DpiAwarenessContext when the first isn't accepted</param>
+            <returns>IDisposable</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetProcessDpiAwareness(System.IntPtr,Dapplo.Windows.Dpi.Enums.DpiAwareness@)">
+            <summary>
+            See details <a hef="https://msdn.microsoft.com/en-us/library/windows/desktop/dn302113(v=vs.85).aspx">GetProcessDpiAwareness function</a>
+            Retrieves the dots per inch (dpi) awareness of the specified process.
+            </summary>
+            <param name="processHandle">IntPtr with handle of the process that is being queried. If this parameter is NULL, the current process is queried.</param>
+            <param name="value">out DpiAwareness - The DPI awareness of the specified process. Possible values are from the PROCESS_DPI_AWARENESS enumeration.</param>
+            <returns>HResult</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.SetProcessDpiAwareness(Dapplo.Windows.Dpi.Enums.DpiAwareness)">
+            <summary>
+            Sets the current process to a specified dots per inch (dpi) awareness level. The DPI awareness levels are from the PROCESS_DPI_AWARENESS enumeration.
+            See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn302122(v=vs.85).aspx">SetProcessDpiAwareness function</a>
+            </summary>
+            <param name="dpiAwareness">DpiAwareness</param>
+            <returns>HResult</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.SetProcessDpiAwarenessContext(Dapplo.Windows.Dpi.Enums.DpiAwarenessContext)">
+            <summary>
+            It is recommended that you set the process-default DPI awareness via application manifest. See Setting the default DPI awareness for a process for more information. Setting the process-default DPI awareness via API call can lead to unexpected application behavior.
+            
+            Sets the current process to a specified dots per inch (dpi) awareness context. The DPI awareness contexts are from the DPI_AWARENESS_CONTEXT value.
+            Remarks:
+            This API is a more advanced version of the previously existing SetProcessDpiAwareness API, allowing for the process default to be set to the finer-grained DPI_AWARENESS_CONTEXT values. Most importantly, this allows you to programmatically set Per Monitor v2 as the process default value, which is not possible with the previous API.
+            
+            This method sets the default DPI_AWARENESS_CONTEXT for all threads within an application. Individual threads can have their DPI awareness changed from the default with the SetThreadDpiAwarenessContext method.
+            See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/mt807676(v=vs.85).aspx">SetProcessDpiAwarenessContext function</a>
+            </summary>
+            <param name="dpiAwarenessContext">DpiAwarenessContext</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetDpiForWindow(System.IntPtr)">
+            <summary>
+            See more at <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/mt748624(v=vs.85).aspx">GetDpiForWindow function</a>
+            Returns the dots per inch (dpi) value for the associated window.
+            </summary>
+            <param name="hWnd">IntPtr</param>
+            <returns>uint with dpi</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetDpiForMonitor(System.IntPtr,Dapplo.Windows.Dpi.Enums.MonitorDpiType,System.UInt32@,System.UInt32@)">
+            <summary>
+                See
+                <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx">GetDpiForMonitor function</a>
+                Queries the dots per inch (dpi) of a display.
+            </summary>
+            <param name="hMonitor">IntPtr</param>
+            <param name="dpiType">MonitorDpiType</param>
+            <param name="dpiX">out int for the horizontal dpi</param>
+            <param name="dpiY">out int for the vertical dpi</param>
+            <returns>true if all okay</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.EnableNonClientDpiScaling(System.IntPtr)">
+            <summary>
+                See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/mt748621(v=vs.85).aspx">EnableNonClientDpiScaling function</a>
+            </summary>
+            <param name="hWnd">IntPtr</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetDpiForSystem">
+            <summary>
+            See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/mt748623(v=vs.85).aspx">GetDpiForSystem function</a>
+            Returns the system DPI.
+            </summary>
+            <returns>uint with the system DPI</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.LogicalToPhysicalPointForPerMonitorDPI(System.IntPtr,Dapplo.Windows.Common.Structs.NativePoint@)">
+            <summary>
+            Converts a point in a window from logical coordinates into physical coordinates, regardless of the dots per inch (dpi) awareness of the caller. For more information about DPI awareness levels, see PROCESS_DPI_AWARENESS.
+            See more at <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn384110(v=vs.85).aspx">LogicalToPhysicalPointForPerMonitorDPI function</a>
+            </summary>
+            <param name="hWnd">IntPtr A handle to the window whose transform is used for the conversion.</param>
+            <param name="point">A pointer to a POINT structure that specifies the logical coordinates to be converted. The new physical coordinates are copied into this structure if the function succeeds.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.PhysicalToLogicalPointForPerMonitorDPI(System.IntPtr,Dapplo.Windows.Common.Structs.NativePoint@)">
+            <summary>
+            Converts a point in a window from logical coordinates into physical coordinates, regardless of the dots per inch (dpi) awareness of the caller. For more information about DPI awareness levels, see PROCESS_DPI_AWARENESS.
+            See more at <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dn384112(v=vs.85).aspx">PhysicalToLogicalPointForPerMonitorDPI function</a>
+            </summary>
+            <param name="hWnd">IntPtr A handle to the window whose transform is used for the conversion.</param>
+            <param name="point">NativePoint A pointer to a POINT structure that specifies the physical/screen coordinates to be converted. The new logical coordinates are copied into this structure if the function succeeds.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.SystemParametersInfoForDpi(Dapplo.Windows.User32.Enums.SystemParametersInfoActions,System.UInt32,System.IntPtr,Dapplo.Windows.User32.Enums.SystemParametersInfoBehaviors,System.UInt32)">
+            <summary>
+                See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724947(v=vs.85).aspx">SystemParametersInfo function</a>
+                Retrieves the value of one of the system-wide parameters, taking into account the provided DPI value.
+            </summary>
+            <param name="uiAction">
+            SystemParametersInfoActions The system-wide parameter to be retrieved.
+            This function is only intended for use with SPI_GETICONTITLELOGFONT, SPI_GETICONMETRICS, or SPI_GETNONCLIENTMETRICS. See SystemParametersInfo for more information on these values.
+            </param>
+            <param name="uiParam">
+                A parameter whose usage and format depends on the system parameter being queried or set. For more
+                information about system-wide parameters, see the uiAction parameter. If not otherwise indicated, you must specify
+                zero for this parameter.
+            </param>
+            <param name="pvParam">IntPtr</param>
+            <param name="fWinIni">SystemParametersInfoBehaviors</param>
+            <param name="dpi">uint with dpi value</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetThreadDpiAwarenessContext">
+             <summary>
+             See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/mt748626(v=vs.85).aspx">GetThreadDpiAwarenessContext function</a>
+             Gets the DPI_AWARENESS_CONTEXT for the current thread.
+            
+             This method will return the latest DPI_AWARENESS_CONTEXT sent to SetThreadDpiAwarenessContext. If SetThreadDpiAwarenessContext was never called for this thread, then the return value will equal the default DPI_AWARENESS_CONTEXT for the process.
+             </summary>
+             <returns>DpiAwarenessContext</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.SetThreadDpiAwarenessContext(Dapplo.Windows.Dpi.Enums.DpiAwarenessContext)">
+            <summary>
+            Set the DPI awareness for the current thread to the provided value.
+            </summary>
+            <param name="dpiAwarenessContext">DpiAwarenessContext the new value for the current thread</param>
+            <returns>DpiAwarenessContext previous value</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetAwarenessFromDpiAwarenessContext(Dapplo.Windows.Dpi.Enums.DpiAwarenessContext)">
+            <summary>
+            Retrieves the DpiAwareness value from a DpiAwarenessContext.
+            </summary>
+            <param name="dpiAwarenessContext">DpiAwarenessContext</param>
+            <returns>DpiAwareness</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetDpiFromDpiAwarenessContext(Dapplo.Windows.Dpi.Enums.DpiAwarenessContext)">
+            <summary>
+            Retrieves the DPI from a given DPI_AWARENESS_CONTEXT handle. This enables you to determine the DPI of a thread without needed to examine a window created within that thread.
+            </summary>
+            <param name="dpiAwarenessContext">DpiAwarenessContext</param>
+            <returns>uint with dpi value</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.IsValidDpiAwarenessContext(Dapplo.Windows.Dpi.Enums.DpiAwarenessContext)">
+            <summary>
+            Determines if a specified DPI_AWARENESS_CONTEXT is valid and supported by the current system.
+            </summary>
+            <param name="dpiAwarenessContext">DpiAwarenessContext The context that you want to determine if it is supported.</param>
+            <returns>bool true if supported otherwise false</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetWindowDpiHostingBehavior">
+             <summary>
+             Returns the DPI_HOSTING_BEHAVIOR of the specified window.
+            
+             This API allows you to examine the hosting behavior of a window after it has been created. A window's hosting behavior is the hosting behavior of the thread in which the window was created, as set by a call to SetThreadDpiHostingBehavior. This is a permanent value and cannot be changed after the window is created, even if the thread's hosting behavior is changed.
+             </summary>
+             <returns>DpiHostingBehavior</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.SetThreadDpiHostingBehavior(Dapplo.Windows.Dpi.Enums.DpiHostingBehavior)">
+             <summary>
+             See more at <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/mt845775.aspx">SetThreadDpiHostingBehavior function</a>
+             Sets the thread's DPI_HOSTING_BEHAVIOR. This behavior allows windows created in the thread to host child windows with a different DPI_AWARENESS_CONTEXT.
+            
+             DPI_HOSTING_BEHAVIOR enables a mixed content hosting behavior, which allows parent windows created in the thread to host child windows with a different DPI_AWARENESS_CONTEXT value. This property only effects new windows created within this thread while the mixed hosting behavior is active. A parent window with this hosting behavior is able to host child windows with different DPI_AWARENESS_CONTEXT values, regardless of whether the child windows have mixed hosting behavior enabled.
+             
+             This hosting behavior does not allow for windows with per-monitor DPI_AWARENESS_CONTEXT values to be hosted until windows with DPI_AWARENESS_CONTEXT values of system or unaware.
+             
+             To avoid unexpected outcomes, a thread's DPI_HOSTING_BEHAVIOR should be changed to support mixed hosting behaviors only when creating a new window which needs to support those behaviors. Once that window is created, the hosting behavior should be switched back to its default value.
+             
+             This API is used to change the thread's DPI_HOSTING_BEHAVIOR from its default value. This is only necessary if your app needs to host child windows from plugins and third-party components that do not support per-monitor-aware context. This is most likely to occur if you are updating complex applications to support per-monitor DPI_AWARENESS_CONTEXT behaviors.
+             
+             Enabling mixed hosting behavior will not automatically adjust the thread's DPI_AWARENESS_CONTEXT to be compatible with legacy content. The thread's awareness context must still be manually changed before new windows are created to host such content.
+             </summary>
+             <param name="dpiHostingBehavior">DpiHostingBehavior</param>
+             <returns>previous DpiHostingBehavior</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetThreadDpiHostingBehavior">
+             <summary>
+            Retrieves the DPI_HOSTING_BEHAVIOR from the current thread.
+             </summary>
+             <returns>DpiHostingBehavior</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.SetDialogControlDpiChangeBehavior(System.IntPtr,Dapplo.Windows.Dpi.Enums.DialogScalingBehaviors,Dapplo.Windows.Dpi.Enums.DialogScalingBehaviors)">
+             <summary>
+             Overrides the default per-monitor DPI scaling behavior of a child window in a dialog.
+             This function returns TRUE if the operation was successful, and FALSE otherwise. To get extended error information, call GetLastError.
+             
+             Possible errors are ERROR_INVALID_HANDLE if passed an invalid HWND, and ERROR_ACCESS_DENIED if the windows belongs to another process.
+            
+             The behaviors are specified as values from the DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS enum. This function follows the typical two-parameter approach to setting flags, where a mask specifies the subset of the flags to be changed.
+             
+             It is valid to set these behaviors on any window. It does not matter if the window is currently a child of a dialog at the point in time that SetDialogControlDpiChangeBehavior is called. The behaviors are retained and will take effect only when the window is an immediate child of a dialog that has per-monitor DPI scaling enabled.
+             
+             This API influences individual controls within dialogs. The dialog-wide per-monitor DPI scaling behavior is controlled by SetDialogDpiChangeBehavior.
+             </summary>
+             <param name="hWnd">IntPtr A handle for the window whose behavior will be modified.</param>
+             <param name="mask">DialogScalingBehaviors A mask specifying the subset of flags to be changed.</param>
+             <param name="values">DialogScalingBehaviors The desired value to be set for the specified subset of flags.</param>
+             <returns>bool</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.NativeDpiMethods.GetDialogControlDpiChangeBehavior(System.IntPtr)">
+            <summary>
+            Retrieves and per-monitor DPI scaling behavior overrides of a child window in a dialog.
+            The flags set on the given window. If passed an invalid handle, this function will return zero, and set its last error to ERROR_INVALID_HANDLE.
+            </summary>
+            <param name="hWnd">IntPtr A handle for the window whose behavior will be modified.</param>
+            <returns>DialogScalingBehaviors</returns>
+        </member>
+        <member name="T:Dapplo.Windows.Dpi.Wpf.WindowDpiExtensions">
+            <summary>
+                Extensions for the WPF Window class
+            </summary>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Wpf.WindowDpiExtensions.AttachDpiHandler(System.Windows.Window,Dapplo.Windows.Dpi.DpiHandler)">
+            <summary>
+                Attach a DpiHandler to the specified window
+            </summary>
+            <param name="window">Windows</param>
+            <param name="dpiHandler">DpiHandler</param>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Wpf.WindowDpiExtensions.AttachDpiHandler(System.Windows.Window)">
+            <summary>
+                Handle DPI changes for the specified Window, this is actually not really needed for WPF.
+            </summary>
+            <param name="window">Window</param>
+            <returns>DpiHandler</returns>
+        </member>
+        <member name="M:Dapplo.Windows.Dpi.Wpf.WindowDpiExtensions.UpdateLayoutTransform(System.Windows.FrameworkElement,System.Double)">
+            <summary>
+                This can be used to change the scaling of the FrameworkElement
+            </summary>
+            <param name="frameworkElement">FrameworkElement</param>
+            <param name="scaleFactor">double with the factor (1.0 = 100% = 96 dpi)</param>
+        </member>
+    </members>
+</doc>

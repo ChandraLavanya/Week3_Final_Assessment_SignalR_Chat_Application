@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ReactiveUI.Blend</name>
+    </assembly>
+    <members>
+        <member name="T:ReactiveUI.Blend.FollowObservableStateBehavior">
+            <summary>
+            Behavior that tracks the state of an observable.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.FollowObservableStateBehavior.StateObservable">
+            <summary>
+            Gets or sets the state observable.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.FollowObservableStateBehavior.StateObservableProperty">
+            <summary>
+            The state observable dependency property.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.FollowObservableStateBehavior.TargetObject">
+            <summary>
+            Gets or sets the target object.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.FollowObservableStateBehavior.TargetObjectProperty">
+            <summary>
+            The target object dependency property.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.FollowObservableStateBehavior.AutoResubscribeOnError">
+            <summary>
+            Gets or sets a value indicating whether [automatic resubscribe on error].
+            </summary>
+        </member>
+        <member name="M:ReactiveUI.Blend.FollowObservableStateBehavior.OnStateObservableChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Called when [state observable changed].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:ReactiveUI.Blend.FollowObservableStateBehavior.OnDetaching">
+            <inheritdoc/>
+        </member>
+        <member name="T:ReactiveUI.Blend.ObservableTrigger">
+            <summary>
+            A blend based trigger which will be activated when a IObservable triggers.
+            </summary>
+        </member>
+        <member name="F:ReactiveUI.Blend.ObservableTrigger.ObservableProperty">
+            <summary>
+            The dependency property registration for the Observable property.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.ObservableTrigger.Observable">
+            <summary>
+            Gets or sets the observable which will activate the trigger.
+            </summary>
+        </member>
+        <member name="P:ReactiveUI.Blend.ObservableTrigger.AutoResubscribeOnError">
+            <summary>
+            Gets or sets a value indicating whether to resubscribe the trigger if there is a error when running the IObservable.
+            </summary>
+        </member>
+        <member name="M:ReactiveUI.Blend.ObservableTrigger.OnObservableChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Called when [observable changed].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+    </members>
+</doc>

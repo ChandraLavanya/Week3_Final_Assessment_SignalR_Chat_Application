@@ -1,0 +1,445 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dapplo.Addons</name>
+    </assembly>
+    <members>
+        <member name="T:Dapplo.Addons.AddonModule">
+            <summary>
+            Extend from this to make sure your module is loaded via Dapplo.Addons
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.AddonModule.ThisAssembly">
+            <summary>
+            Gets the assembly in which the concrete module type is located. To avoid bugs whereby deriving from a module will
+            change the target assembly, this property can only be used by modules that inherit directly from
+            <see cref="T:Dapplo.Addons.AddonModule"/>.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.IApplicationBootstrapper">
+            <summary>
+            The interface for the ApplicationBootstrapper
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.Builder">
+            <summary>
+            Provides access to the builder, as long as it can be modified.
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.Container">
+            <summary>
+            Provides the Autofac container
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.OnContainerCreated">
+            <summary>
+            Signals when the container is created
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.Scope">
+            <summary>
+            Provides the Autofac primary lifetime scope
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.ApplicationName">
+            <summary>
+            The name of the application
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.EnableActivationLogging">
+            <summary>
+            Log all autofac activations
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.LoadedAssemblies">
+            <summary>
+            An IEnumerable with the loaded assemblies, but filtered to the ones not from the .NET Framework (where possible) 
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IApplicationBootstrapper.IsAlreadyRunning">
+            <summary>
+                Returns if the Mutex is locked, in other words if the Bootstrapper can continue
+                This also returns true if no mutex is used
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IApplicationBootstrapper.RegisterForDisposal(System.IDisposable)">
+            <summary>
+            Add the disposable to a list, everything in there is disposed when the bootstrapper is disposed.
+            </summary>
+            <param name="disposable">IDisposable</param>
+        </member>
+        <member name="M:Dapplo.Addons.IApplicationBootstrapper.Configure">
+            <summary>
+            Configure the Bootstrapper
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IApplicationBootstrapper.InitializeAsync(System.Threading.CancellationToken)">
+            <summary>
+            Initialize the bootstrapper
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IApplicationBootstrapper.StartupAsync(System.Threading.CancellationToken)">
+            <summary>
+            Start the IStartupModules
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+        </member>
+        <member name="M:Dapplo.Addons.IApplicationBootstrapper.ShutdownAsync(System.Threading.CancellationToken)">
+            <summary>
+            Shutdown the IShutdownModules
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+        </member>
+        <member name="T:Dapplo.Addons.IAssemblyResolver">
+            <summary>
+            The interface for the AssemblyResolver
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IAssemblyResolver.AssembliesToIgnore">
+            <summary>
+            A regex with all the assemblies which we should ignore
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IAssemblyResolver.LoadedAssemblies">
+            <summary>
+            A dictionary with all the loaded assemblies, for caching and analysing
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IAssemblyResolver.Resources">
+            <summary>
+            Gives access to the resources in assemblies
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.IAssemblyResolver.CleanupAfterExit">
+            <summary>
+            Specify if embedded assemblies written to disk before using will be removed again when the process exits
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IAssemblyResolver.EmbeddedAssemblyNames(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Get a list of all embedded assemblies
+            </summary>
+            <returns>IEnumerable with a tutple containing the name of the resource and of the assemblie</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IAssemblyResolver.Dispose">
+            <summary>
+            Remove event registrations
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.IResourceProvider">
+            <summary>
+            This is the interface for something which can provide you with embedded resources
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.ResourceAsStream(System.Type,System.String[])">
+            <summary>
+            Get a resource as stream, the resource is with offset to the namespace of the assembly
+                It will automatically un-compress if the file-ending is .gz or .compressed
+                Note: a GZipStream is not seekable, this might cause issues.
+            </summary>
+            <param name="type">The type whose namespace is used to scope the manifest resource name.</param>
+            <param name="segments">The case-sensitive name (or segments added to the namespace), of the manifest resource being requested.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.AbsoluteResourceAsStream(System.Reflection.Assembly,System.String[])">
+            <summary>
+            Get a resource as stream
+                It will automatically un-compress if the file-ending is .gz or .compressed
+                Note: a GZipStream is not seekable, this might cause issues.
+            </summary>
+            <param name="assembly">Assembly containing the resource</param>
+            <param name="segments">string array, used to specify the location and name of the resource</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.ResourceAsStream(System.Reflection.Assembly,System.String[])">
+            <summary>
+            Get a resource as stream, the resource is with offset to the namespace of the assembly
+                It will automatically un-compress if the file-ending is .gz or .compressed
+                Note: a GZipStream is not seekable, this might cause issues.
+            </summary>
+            <param name="assembly">Assembly containing the resource</param>
+            <param name="segments">string array, used to specify the location and name of the resource</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.LocateResourceAsStream(System.Reflection.Assembly,System.String,System.Boolean)">
+            <summary>
+                Get the stream for a assembly manifest resource based on the filePath
+                It will automatically un-compress if the file-ending is .gz or .compressed
+                Note: a GZipStream is not seekable, this might cause issues.
+            </summary>
+            <param name="assembly">Assembly to look into</param>
+            <param name="filePath">string with the filepath to find</param>
+            <param name="ignoreCase">true, which is default, to ignore the case when comparing</param>
+            <returns>Stream for the filePath, or null if not found</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.GetCachedManifestResourceNames(System.Reflection.Assembly)">
+            <summary>
+            Get the ManifestResourceNames for the specified assembly from cache or directly.
+            </summary>
+            <param name="possibleResourceAssembly">Assembly</param>
+            <returns>string array with resources names</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.Find(System.Type,System.String[])">
+            <summary>
+            Returns the fully qualified resource name of a resource
+            </summary>
+            <param name="type">The type whose namespace is used to scope the manifest resource name.</param>
+            <param name="names">The case-sensitive name, parts, of the manifest resource being requested.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.FindEmbeddedResources(System.Reflection.Assembly,System.Text.RegularExpressions.Regex)">
+            <summary>
+                Scan the manifest of the supplied Assembly with a regex pattern for embedded resources
+            </summary>
+            <param name="assembly">Assembly to scan</param>
+            <param name="regexPattern">Regex pattern to scan for</param>
+            <returns>IEnumerable with matching resource names</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.FindEmbeddedResources(System.Reflection.Assembly,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+                Scan the manifest of the supplied Assembly with a regex pattern for embedded resources
+            </summary>
+            <param name="assembly">Assembly to scan</param>
+            <param name="regexPattern">Regex pattern to scan for</param>
+            <param name="regexOptions">RegexOptions.IgnoreCase as default</param>
+            <returns>IEnumerable with matching resource names</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.ResourceAsStream(System.Uri)">
+            <summary>
+                Returns the embedded resource, as specified in the Pack-Uri as a stream.
+                This currently doesn't go into the embedded .g.resources files, this might be added later
+            </summary>
+            <param name="applicationPackUri">Uri</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.IResourceProvider.EmbeddedResourceExists(System.Uri,System.Boolean)">
+            <summary>
+                Test if there is an embedded resource for the Pack-Uri
+                This is work in progress, as most of the times the files are compiled from XAML to BAML, and won't be recognized
+                when you specify a pack uri ending on .xaml
+            </summary>
+            <param name="packUri">Uri</param>
+            <param name="ignoreCase">true to ignore the case</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="T:Dapplo.Addons.IService">
+            <summary>
+                The IService is a marker interface for services that startup and or shutdown
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.IShutdown">
+            <summary>
+                Use IShutdown for services that need a shutdown
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IShutdown.Shutdown">
+            <summary>
+                Perform a shutdown of whatever needs to be shutdown.
+                Make sure this can be called multiple times, e.g. do nothing when it was already started.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.IShutdownAsync">
+            <summary>
+                Use IShutdownAsync for services that need to be shutdown async
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IShutdownAsync.ShutdownAsync(System.Threading.CancellationToken)">
+            <summary>
+                Perform a shutdown of whatever needs to be shutdown.
+                Make sure this can be called multiple times, e.g. do nothing when it was already started.
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Dapplo.Addons.IStartup">
+            <summary>
+                IStartup is an interface that is used for things that need to start
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IStartup.Startup">
+            <summary>
+                Perform a start of whatever needs to be started.
+                Make sure this can be called multiple times, e.g. do nothing when it was already started.
+                throw a StartupException if something went terribly wrong and the application should NOT continue
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.IStartupAsync">
+            <summary>
+                Use IStartupAsync for things which need to start async
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.IStartupAsync.StartupAsync(System.Threading.CancellationToken)">
+            <summary>
+                Perform a start of whatever needs to be started.
+                Make sure this can be called multiple times, e.g. do nothing when it was already started.
+                throw a StartupException if something went terribly wrong and the application should NOT continue
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Dapplo.Addons.ServiceAttribute">
+            <summary>
+                Use this attribute to specify the details of a service, like the name and on what this depends
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.ServiceAttribute.#ctor">
+            <summary>
+            Default service, used by autofac, this should actually not be used directly...
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.ServiceAttribute.#ctor(System.String)">
+            <summary>
+            Specify the name of the service and an optional a service this depends on
+            </summary>
+            <param name="name">string</param>
+        </member>
+        <member name="M:Dapplo.Addons.ServiceAttribute.#ctor(System.String,System.String[])">
+            <summary>
+            Specify the name of the service and an optional a service this depends on
+            </summary>
+            <param name="name">string</param>
+            <param name="prerequisites">string, optional</param>
+        </member>
+        <member name="P:Dapplo.Addons.ServiceAttribute.Name">
+            <summary>
+                Here the order of the startup action can be specified, starting startup with low values and ending with high.
+                With this a cheap form of "dependency" management is made.
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.ServiceAttribute.Prerequisites">
+            <summary>
+                Describes the service (name) this service depends on
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.ServiceAttribute.TaskSchedulerName">
+            <summary>
+            The name of the TaskScheduler, or null if the threadpool is used
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.ServiceAttribute.SkipIfPrerequisiteIsMissing">
+            <summary>
+            If this is true, the service will not be started if the prerequisite is missing.
+            Default is false, which will stop the startup if it is missing.
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.ServiceAttribute.SkipAwait">
+            <summary>
+            If this is true, the startup of the whole branch of services is not awaited.
+            This does not have have influence on the shutdown.
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.Services.ServiceNode`1">
+            <summary>
+            This contains the information needed for the startup and shutdown of services
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNode`1.#ctor(`0,Dapplo.Addons.ServiceAttribute)">
+            <summary>
+            
+            </summary>
+            <param name="service">TService</param>
+            <param name="details">ServiceAttribute</param>
+        </member>
+        <member name="P:Dapplo.Addons.Services.ServiceNode`1.Details">
+            <summary>
+            The attributed details
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Services.ServiceNode`1.Service">
+            <summary>
+            Task of the service
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Services.ServiceNode`1.HasPrerequisites">
+            <summary>
+            Test if this service depends on other services
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Services.ServiceNode`1.Prerequisites">
+            <summary>
+            The service which should be started before this
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Services.ServiceNode`1.HasDependencies">
+            <summary>
+            Test if this service has dependencies
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Services.ServiceNode`1.Dependencies">
+            <summary>
+            The services awaiting for this
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNode`1.TryBeginShutdown">
+            <summary>
+            Helper method to coordinate the shutdown
+            </summary>
+            <returns>true if you can begin the shutdown</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNode`1.Shutdown(System.Threading.Tasks.TaskScheduler,System.Threading.CancellationToken)">
+            <summary>
+            Stop this service
+            </summary>
+            <param name="taskScheduler"></param>
+            <param name="cancellationToken"></param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNode`1.TryBeginStartup">
+            <summary>
+            Helper method to coordinate the startup
+            </summary>
+            <returns>true if you can begin the startup</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNode`1.Startup(System.Threading.Tasks.TaskScheduler,System.Threading.CancellationToken)">
+            <summary>
+            Start this service
+            </summary>
+            <param name="taskScheduler"></param>
+            <param name="cancellationToken"></param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNode`1.Run(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task},System.Threading.Tasks.TaskScheduler,System.Threading.Tasks.TaskCompletionSource{System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Start a task on a optional TaskScheduler
+            </summary>
+            <param name="func">Func accepting CancellationToken returning Task</param>
+            <param name="taskScheduler">TaskScheduler</param>
+            <param name="tcs">TaskCompletionSource</param>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNode`1.Run(System.Action,System.Threading.Tasks.TaskScheduler,System.Threading.Tasks.TaskCompletionSource{System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Helper method to start an action
+            </summary>
+            <param name="action">Action</param>
+            <param name="taskScheduler">TaskScheduler</param>
+            <param name="tcs">TaskCompletionSource</param>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Services.ServiceNodeContainer`1">
+            <summary>
+            This can hold the servicenodes for a tree based dependency startup, shutdown or simular services
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Services.ServiceNodeContainer`1.ServiceNodes">
+            <summary>
+            This contains all the nodes for your services
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNodeContainer`1.#ctor(System.Collections.Generic.IEnumerable{Autofac.Features.Metadata.Meta{`0,Dapplo.Addons.ServiceAttribute}})">
+            <summary>
+            The constructor to specify the services
+            </summary>
+            <param name="services">IEnumerable</param>
+        </member>
+        <member name="M:Dapplo.Addons.Services.ServiceNodeContainer`1.CreateServiceDictionary(System.Collections.Generic.IEnumerable{Autofac.Features.Metadata.Meta{`0,Dapplo.Addons.ServiceAttribute}})">
+            <summary>
+            This builds a tree of service nodes
+            </summary>
+            <param name="services">IEnumerable with Meta of IService and ServiceAttribute</param>
+            <returns>IDictionary</returns>
+        </member>
+    </members>
+</doc>

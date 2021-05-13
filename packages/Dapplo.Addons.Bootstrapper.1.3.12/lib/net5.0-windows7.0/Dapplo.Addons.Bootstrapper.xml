@@ -1,0 +1,986 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dapplo.Addons.Bootstrapper</name>
+    </assembly>
+    <members>
+        <member name="T:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper">
+            <summary>
+            This is a bootstrapper for Autofac
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.Instance">
+            <summary>
+            The current instance
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.Resolver">
+            <summary>
+            The used assembly resolver
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.Builder">
+            <summary>
+            Provides access to the builder, as long as it can be modified.
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.Container">
+            <summary>
+            Provides the Autofac container
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.OnContainerCreated">
+            <summary>
+            Signals when the container is created
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.Scope">
+            <summary>
+            Provides the Autofac primary lifetime scope
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.ApplicationName">
+            <summary>
+            The name of the application
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.EnableActivationLogging">
+            <summary>
+            Log all Autofac activations, must be set before the container is build
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.LoadedAssemblies">
+            <summary>
+            An IEnumerable with the loaded assemblies, but filtered to the ones not from the .NET Framework (where possible) 
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.#ctor(Dapplo.Addons.Bootstrapper.ApplicationConfig)">
+            <summary>
+            Create the application bootstrapper
+            </summary>
+            <param name="applicationConfig">ApplicationConfig with the complete configuration</param>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.IsAlreadyRunning">
+            <summary>
+                Returns if the Mutex is locked, in other words if the Bootstrapper can continue
+                This also returns true if no mutex is used
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.RegisterForDisposal(System.IDisposable)">
+            <summary>
+            Add the disposable to a list, everything in there is disposed when the bootstrapper is disposed.
+            </summary>
+            <param name="disposable">IDisposable</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.Configure">
+            <summary>
+            Configure the Bootstrapper
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.LoadAssemblies(System.Threading.CancellationToken)">
+            <summary>
+            Load all specified assemblies
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+            <exception cref="T:System.DllNotFoundException"></exception>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.InitializeAsync(System.Threading.CancellationToken)">
+            <summary>
+            Initialize the bootstrapper
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.StartupAsync(System.Threading.CancellationToken)">
+            <summary>
+            Start the IStartupModules
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.ShutdownAsync(System.Threading.CancellationToken)">
+            <summary>
+            Shutdown the IShutdownModules
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapper.Dispose">
+            <summary>
+            Dispose the scope and container
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.ApplicationBootstrapperAutofacModule">
+            <summary>
+            Register all types for the application bootstrapper itself
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationBootstrapperAutofacModule.Load(Autofac.ContainerBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.ApplicationConfig">
+            <summary>
+            This specifies the configuration for the ApplicationBootstrapper
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.Properties">
+            <summary>
+            The properties for the container
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.ScanForEmbeddedAssemblies">
+            <summary>
+            Specifies if the application bootstrapper should scan embedded assemblies
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.CopyEmbeddedAssembliesToFileSystem">
+            <summary>
+            Specifies if the application bootstrapper copy embedded assemblies to the file system
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.CopyAssembliesToProbingPath">
+            <summary>
+            Specifies if assemblies outside the probing path can be copied to the probing path
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.UseAsyncAssemblyLoading">
+            <summary>
+            This specifies if the loading of assemblies can be done async
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.ScanDirectories">
+            <summary>
+            The directories to scan for add-ons
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.AssemblyNames">
+            <summary>
+            The names of assemblies to load
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.AssemblyNamePatterns">
+            <summary>
+            The patterns of assembly names to load
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.Extensions">
+            <summary>
+            The allowed assembly extensions to load, default .dll
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.ApplicationName">
+            <summary>
+            The name of the application
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.Mutex">
+            <summary>
+            The id of the mutex, if any
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.UseGlobalMutex">
+            <summary>
+            Specify if the mutex is global, default is false
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.HasMutex">
+            <summary>
+            Test if a mutex is set
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfig.UseStrictChecking">
+            <summary>
+            Strict checking, especially useful to prevent wrong configurations.
+            Currently this forces a check for the ScanDirectories
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder">
+            <summary>
+            This is a builder for the ApplicationConfig
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.Properties">
+            <summary>
+            Container Properties
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.IsBuild">
+            <summary>
+            True if the ApplicationConfig was already build.
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.#ctor">
+            <summary>
+            Private constructor, to prevent constructing this.
+            Please use the Create factory method.
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.Create">
+            <summary>
+            Factory
+            </summary>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.BuildApplicationConfig">
+            <summary>
+            Build or finalize the configuration, so it can be used
+            </summary>
+            <returns>ApplicationConfig</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithApplicationName(System.String)">
+            <summary>
+            Change the application name
+            </summary>
+            <param name="applicationName">string</param>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithoutScanningForEmbeddedAssemblies">
+            <summary>
+            Disable the embedded assembly scanning
+            </summary>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithoutAsyncAssemblyLoading">
+            <summary>
+            Disable the async loading of assemblies
+            </summary>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithoutCopyOfEmbeddedAssemblies">
+            <summary>
+            Disable the embedded assembly copying
+            </summary>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithoutCopyOfAssembliesToProbingPath">
+            <summary>
+            Disable the copying of assemblies to the probing path, this is risky as it could introduce assembly load context issues
+            </summary>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithExtensions(System.String[])">
+            <summary>
+            The extensions to use for loading the assemblies
+            </summary>
+            <param name="extensions">string with extension, can use multiple arguments</param>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithoutExtensions(System.String[])">
+            <summary>
+            The extensions NOT to use for loading the assemblies, e.g. if you do not want to use .dll call this
+            </summary>
+            <param name="extensions">string with extension, can use multiple arguments, when null all are removed</param>
+            <returns>ApplicationConfig</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithoutStrictChecking">
+            <summary>
+            Disable strict checking
+            </summary>
+            <returns>ApplicationConfig</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithMutex(System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Specify that a mutex needs to be used
+            </summary>
+            <param name="mutex">string</param>
+            <param name="global">bool specifying if the mutex if global or not, default is false</param>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithScanDirectories(System.String[])">
+            <summary>
+            Add scan directory or directories
+            </summary>
+            <param name="scanDirectories">string []</param>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithAssemblyNames(System.String[])">
+            <summary>
+            Add assembly name(s)
+            </summary>
+            <param name="assemblyNames">string [] with the names of assemblies to load</param>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ApplicationConfigBuilder.WithAssemblyPatterns(System.String[])">
+            <summary>
+            Add assembly name patterns to scan for
+            </summary>
+            <param name="assemblyNamePatterns">string [] with the assembly name patterns</param>
+            <returns>ApplicationConfigBuilder</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.AttributeMetaData.AttributedMetadataModule">
+            <summary>
+            this module will scan all registrations for metadata and associate them if found
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.AttributeMetaData.AttributedMetadataModule.AttachToComponentRegistration(Autofac.Core.Registration.IComponentRegistryBuilder,Autofac.Core.IComponentRegistration)">
+            <summary>
+            Override to attach module-specific functionality to a
+            component registration.
+            </summary>
+            <remarks>This method will be called for all existing <i>and future</i> component
+            registrations - ordering is not important.</remarks>
+            <param name="componentRegistry">The component registry.</param>
+            <param name="registration">The registration to attach functionality to.</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.AttributeMetaData.AttributedMetadataModule.GetProperties(System.Object,System.Type)">
+            <summary>
+            Given a target attribute object, returns a set of public readable properties and associated values.
+            </summary>
+            <param name="target">Target attribute instance to be scanned.</param>
+            <param name="instanceType">
+            The <see cref="T:System.Type"/> on which the <paramref name="target" /> attribute
+            is associated. Used when the <paramref name="target" /> is an
+            <see cref="T:Dapplo.Addons.Bootstrapper.AttributeMetaData.IMetadataProvider"/>.
+            </param>
+            <returns>Enumerable set of property names and associated values.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="target" /> or <paramref name="instanceType"/> is <see langword="null" />.
+            </exception>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.AttributeMetaData.AttributedMetadataModule.GetMetadata(System.Type)">
+            <summary>
+            Given a component type, interrogates the metadata attributes to retrieve a set of property name/value metadata pairs.
+            </summary>
+            <param name="targetType">Type to interrogate for metdata attributes.</param>
+            <returns>Enumerable set of property names and associated values found.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="targetType" /> is <see langword="null" />.
+            </exception>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.AttributeMetaData.IMetadataProvider">
+            <summary>
+            Defines an attribute that provides custom metadata generation.
+            </summary>
+            <remarks>
+            <para>
+            The standard attribute metadata mechanism takes the names of public
+            properties from an attribute and creates a dictionary of name/value
+            pairs based on those properties, using that as the metadata for a
+            service.
+            </para>
+            <para>
+            When you need to provide a more robust attribute-based definition of
+            metadata, you can instead have your metadata attribute implement this
+            interface. Rather than using name/value pairs generated by the properties
+            on your attribute, you can directly provide the metadata key/value pairs
+            to associate with a service.
+            </para>
+            </remarks>
+            <example>
+            <para>
+            This example shows what a metadata attribute might look like when providing
+            custom metadata:
+            </para>
+            <code lang="C#">
+            [MetadataAttribute]
+            [AttributeUsage(AttributeTargets.Class)]
+            public class ProvidedMetadataAttribute : Attribute, IMetadataProvider
+            {
+              public IDictionary&lt;string, object&gt; GetMetadata(Type targetType)
+              {
+                return new Dictionary&lt;string, object&gt;()
+                {
+                  { "Key1", "Value1" },
+                  { "Key2", "Value2" }
+                };
+              }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.AttributeMetaData.IMetadataProvider.GetMetadata(System.Type)">
+            <summary>
+            Gets metadata pairs for the passed target type.
+            </summary>
+            <param name="targetType">Target <see cref="T:System.Type"/> for which metadata should be retrieved.</param>
+            <returns>Metadata dictionary to merge with existing metadata.</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Extensions.AssemblyExtensions">
+            <summary>
+                Extensions to help using an Assembly
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Extensions.AssemblyExtensions.GetLocation(System.Reflection.Assembly,System.Boolean)">
+            <summary>
+                Get the location of an assembly
+            </summary>
+            <param name="assembly">Assembly</param>
+            <param name="allowCodeBase">specify if it's okay to also consider the codeBase value</param>
+            <returns>string or null if it's dynamically created</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Extensions.PackUriExtensions">
+            <summary>
+            Extensions for Uri with the schema pack
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Extensions.PackUriExtensions.IsWellformedApplicationPackUri(System.Uri)">
+            <summary>
+                Validate PackUri
+            </summary>
+            <param name="packUri">Uri</param>
+            <returns>bool true if wellformed</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Extensions.PackUriExtensions.ApplicationPackUriMatch(System.Uri)">
+            <summary>
+                Helper method to create a regex match for the supplied Pack uri
+            </summary>
+            <param name="packUri">Uri</param>
+            <returns>Match</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Extensions.StreamExtensions">
+            <summary>
+                Extensions for Stream
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Extensions.StreamExtensions.ToByteArray(System.IO.Stream)">
+            <summary>
+                Create a byte array for the stream
+            </summary>
+            <param name="stream">Stream</param>
+            <returns>byte array</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation">
+            <summary>
+            Information on the location of an assembly
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.IsEmbedded">
+            <summary>
+            Specifies if the assembly is embedded
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.Name">
+            <summary>
+            Assembly name
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.ContainingAssembly">
+            <summary>
+            IS the Assembly containing the assembly
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.Filename">
+            <summary>
+            Both in the containing assembly, as on the file system
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.FileDate">
+            <summary>
+            This is the last write time of the assembly on the disk, or the containing assembly for embedded assemblies.
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.#ctor(System.String,System.Reflection.Assembly,System.String)">
+            <summary>
+            Constructor for an embedded assembly location information
+            </summary>
+            <param name="name">string with name of the assembly</param>
+            <param name="containingAssembly">Assembly which contains the assembly</param>
+            <param name="resourceName">string with the resource name</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.#ctor(System.String,System.String)">
+            <summary>
+            Constructor for a disk located assembly location information
+            </summary>
+            <param name="name">string with the assembly name</param>
+            <param name="resourceName">string with the filename</param>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.IsOnProbingPath">
+            <summary>
+            Checks if the file is on the probingpath
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Internal.NoSynchronizationContextScope">
+            <summary>
+                Create a scope in which code doesn't have a SynchronizationContext, dispose this to leave the scope
+                From answer to StackOverflow question:
+                http://stackoverflow.com/questions/28305968/use-task-run-in-synchronous-method-to-avoid-deadlock-waiting-on-async-method/28307965#28307965
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Internal.NoSynchronizationContextScope.#ctor">
+            <summary>
+                Create a scope in which code doesn't have a SynchronizationContext, dispose this to leave the scope
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Internal.NoSynchronizationContextScope.Dispose">
+            <summary>
+                Set the SynchronizationContext back, this "leaves" the "no synchronization context scope"
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver">
+            <summary>
+            This class supports the resolving of assemblies
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.AssembliesToIgnore">
+            <summary>
+            A regex with all the assemblies which we should ignore
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.AvailableAssemblies">
+            <summary>
+            A dictionary with all the loaded assemblies, for caching and analyzing
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.LoadedAssemblies">
+            <summary>
+            A dictionary with all the loaded assemblies, for caching and analyzing
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.Resources">
+            <summary>
+            Gives access to the resources in assemblies
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.CleanupAfterExit">
+            <summary>
+            Specify if embedded assemblies written to disk before using will be removed again when the process exits
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.#ctor(Dapplo.Addons.Bootstrapper.ApplicationConfig)">
+            <summary>
+            The constructor of the Assembly Resolver
+            </summary>
+            <param name="applicationConfig">ApplicationConfig</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.ScanForAssemblies">
+            <summary>
+            Do the one time scan of all the assemblies
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.LoadAssembly(System.String)">
+            <summary>
+            Load a named assembly
+            </summary>
+            <param name="assemblyName">string</param>
+            <returns>Assembly</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.LoadAssembly(Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation)">
+            <summary>
+            Load an assembly from the specified location
+            </summary>
+            <param name="assemblyLocationInformation">AssemblyLocationInformation</param>
+            <returns>Assembly</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.LoadEmbeddedAssembly(Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation)">
+            <summary>
+            Logic to load an embedded assembly
+            </summary>
+            <param name="assemblyLocationInformation"></param>
+            <returns>Assembly</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.LoadFromFile(Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation)">
+            <summary>
+            Load an assembly via a file, this used via Assembly.Load or Assembly.LoadFrom depending on where the file is or can be stored
+            </summary>
+            <param name="additionalInformation">AssemblyLocationInformation used for some decisions</param>
+            <returns>Assembly</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.AssemblyResolve(System.Object,System.ResolveEventArgs)">
+            <summary>
+            This will try to resolve the requested assembly by looking into the cache
+            </summary>
+            <param name="sender">object</param>
+            <param name="resolveEventArgs">ResolveEventArgs</param>
+            <returns>Assembly</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.EmbeddedAssemblyNames(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Get a list of all embedded assemblies
+            </summary>
+            <returns>IEnumerable with a containing the names of the resource and of the assemblie</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.LoadEmbeddedAssemblyViaTmpFile(Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation)">
+            <summary>
+            This is a workaround where an embedded assembly is written to a tmp file, which solves some issues
+            </summary>
+            <param name="assemblyLocationInformation">AssemblyLocationInformation</param>
+            <returns>Assembly</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.ShouldWrite(Dapplo.Addons.Bootstrapper.Internal.AssemblyLocationInformation,System.String)">
+            <summary>
+            Test if the source should be written to the destination (true) or if the destination is newer/same (false)
+            </summary>
+            <param name="source">AssemblyLocationInformation</param>
+            <param name="destination">string with destination path</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.AssemblyLoad(System.Object,System.AssemblyLoadEventArgs)">
+            <summary>
+            This is called when a new assembly is loaded, we need to know this
+            </summary>
+            <param name="sender">object</param>
+            <param name="args">AssemblyLoadEventArgs</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.RemoveCopiedAssemblies">
+            <summary>
+            Helper method to clean up
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.AssemblyResolver.Dispose">
+            <summary>
+            Remove event registrations
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Resolving.FileLocations">
+            <summary>
+                Some utils for managing the location of files
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.StartupDirectory">
+            <summary>
+                Get the startup location, which is either the location of the entry assembly, or the executing assembly
+            </summary>
+            <returns>string with the directory of where the running code/applicationName was started</returns>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.AssemblyResolveBaseDirectory">
+            <summary>
+                Get the base location from where assembly resolving is made
+            </summary>
+            <returns>string with the directory of where the running code/applicationName was started</returns>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.AssemblyResolveDirectories">
+            <summary>
+            Returns the directories where assembly resolving is made
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.AddonsLocation">
+            <summary>
+            Returns the directory where the add-on assemblies are stored, this is the location specified by 
+            </summary>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.ProbingPath">
+            <summary>
+            Retrieve the assembly probing path from the configuration
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.RoamingAppDataDirectory(System.String)">
+            <summary>
+                Get the roaming AppData directory
+            </summary>
+            <returns>string with the directory the AppData roaming directory</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.Scan(System.Collections.Generic.IEnumerable{System.String},System.Text.RegularExpressions.Regex,System.IO.SearchOption)">
+            <summary>
+                Scan the supplied directories for files which match the passed file pattern
+            </summary>
+            <param name="directories"></param>
+            <param name="filePattern">Regular expression for the filename</param>
+            <param name="searchOption">
+                Makes it possible to specify if the search is recursive, SearchOption.AllDirectories is
+                default, use SearchOption.TopDirectoryOnly for non recursive
+            </param>
+            <returns>IEnumerable with paths</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.Scan(System.Collections.Generic.IEnumerable{System.String},System.String,System.IO.SearchOption)">
+            <summary>
+                Scan the supplied directories for files which match the passed file pattern
+            </summary>
+            <param name="directories">IEnumerable of string with the directories to scan</param>
+            <param name="simplePattern"></param>
+            <param name="searchOption">
+                Makes it possible to specify if the search is recursive, SearchOption.AllDirectories is
+                default, use SearchOption.TopDirectoryOnly for non recursive
+            </param>
+            <returns>IEnumerable with paths</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.Scan(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+                Scan the supplied directories for files which match the passed file pattern
+            </summary>
+            <param name="directory">string with the directory to scan</param>
+            <param name="simplePattern">pattern</param>
+            <param name="searchOption">
+                Makes it possible to specify if the search is recursive, SearchOption.AllDirectories is
+                default, use SearchOption.TopDirectoryOnly for non recursive
+            </param>
+            <returns>IEnumerable with file paths</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.DirectoriesFor(System.String,System.Boolean)">
+            <summary>
+                For the given directory this will return possible location.
+                It might be that multiple are returned, also normalization is made
+            </summary>
+            <param name="directory">A absolute or relative directory</param>
+            <param name="allowCurrentDirectory">true to allow relative to current working directory</param>
+            <returns>IEnumerable with possible directories</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.DirectoryRelativeToCurrentWorkingDirectory(System.String)">
+            <summary>
+                Helper method which returns the directory relative to the current directory
+            </summary>
+            <param name="directory">directory name</param>
+            <returns>string directory</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileLocations.DirectoryRelativeToExe(System.String)">
+            <summary>
+                Helper method which returns the directory relative to the exe
+            </summary>
+            <param name="directory">directory name</param>
+            <returns>string directory</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Resolving.FileTools">
+            <summary>
+                Some utils for working with files (mainly filename)
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileTools.NormalizeDirectory(System.String)">
+            <summary>
+                A simple helper to normalize a directory name
+            </summary>
+            <param name="directory"></param>
+            <returns>normalized directory name</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileTools.FilenameToRegex(System.String,System.Collections.Generic.IEnumerable{System.String},System.Boolean,System.String)">
+            <summary>
+                Create a regex to find the specified file with wildcards.
+            </summary>
+            <param name="filename">
+                string with the filename pattern to match, like Dapplo.* is allowed.
+                Together with extensions "dll" and "dll.gz" this would be converted to Dapplo\..*(\.dll|\.dll\.gz)$
+                (the . in the filename pattern is NOT a any, for this a ? should be used)
+            </param>
+            <param name="extensions">Extensions which need to be matched allowed</param>
+            <param name="ignoreCase">default is true and makes sure the case is ignored</param>
+            <param name="prefix">
+                The prefix by default restricts the match to be a complete filename, independend of the path before it.
+                For resources the predix could be the namespace but you can also specify the directory up to the file if you want a
+                concrete fix.
+            </param>
+            <returns>Regex representing the filename pattern</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.FileTools.RemoveExtensions(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+                Remove extensions from a filename / path
+            </summary>
+            <param name="filepath">string with a filename or path</param>
+            <param name="extensions">IEnumerable with extensions to remove</param>
+            <returns>string</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources">
+            <summary>
+                Utilities for embedded resources
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.#ctor(System.Func{System.String,System.Reflection.Assembly})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="findAssembly">Func to find an Assembly by name</param>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.AssemblyResourceNames">
+            <summary>
+            Mapping between Assemblies and the contained resources files
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.GetCachedManifestResourceNames(System.Reflection.Assembly)">
+            <summary>
+            Get the ManifestResourceNames for the specified assembly from cache or directly.
+            </summary>
+            <param name="possibleResourceAssembly">Assembly</param>
+            <returns>string array with resources names</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.Find(System.Type,System.String[])">
+            <summary>
+            Returns the fully qualified resource name of a resource
+            </summary>
+            <param name="type">The type whose namespace is used to scope the manifest resource name.</param>
+            <param name="names">The case-sensitive name, parts, of the manifest resource being requested.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.ResourceAsStream(System.Type,System.String[])">
+            <summary>
+            Get a resource as stream
+            </summary>
+            <param name="type">Type, used as the base to find the resource</param>
+            <param name="segments">string array, used to specify the location and name of the resource</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.ResourceAsStream(System.Reflection.Assembly,System.String[])">
+            <summary>
+            Get a resource as stream
+            </summary>
+            <param name="assembly">Assembly containing the resource</param>
+            <param name="segments">string array, used to specify the location and name of the resource</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.AbsoluteResourceAsStream(System.Reflection.Assembly,System.String[])">
+            <summary>
+            Get a resource as stream
+            </summary>
+            <param name="assembly">Assembly containing the resource</param>
+            <param name="segments">string array, used to specify the location and name of the resource</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.ResourceRegex(System.Reflection.Assembly,System.String,System.Boolean,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+                Create a regex to find a resource in an assembly
+            </summary>
+            <param name="assembly">Assembly to look into</param>
+            <param name="filePath">string with the filepath to find</param>
+            <param name="ignoreCase">true, which is default, to ignore the case when comparing</param>
+            <param name="alternativeExtensions">Besides the specified extension in the filePath, these are also allowed</param>
+            <returns>Regex</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.LocateResourceAsStream(System.Reflection.Assembly,System.String,System.Boolean)">
+            <summary>
+                Get the stream for a assembly manifest resource based on the filePath
+                It will automatically uncompress if the file-ending is .gz or .compressed
+                Note: a GZipStream is not seekable, this might cause issues.
+            </summary>
+            <param name="filePath">string with the filepath to find</param>
+            <param name="assembly">Assembly to look into</param>
+            <param name="ignoreCase">true, which is default, to ignore the case when comparing</param>
+            <returns>Stream for the filePath, or null if not found</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.ResourceStreamWithDecompression(System.Reflection.Assembly,System.String,System.Type)">
+            <summary>
+            Retrieve the named resource as stream
+                It will automatically uncompress if the file-ending is .gz or .compressed
+                Note: a GZipStream is not seekable, this might cause issues.
+            </summary>
+            <param name="assembly">Assembly</param>
+            <param name="resourceName">string with the FQ resource name (assemblynamespace.path.filename.extension)</param>
+            <param name="baseType">Type whose namespace is used to scope the manifest resource name.</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.FindEmbeddedResources(System.Reflection.Assembly,System.Text.RegularExpressions.Regex)">
+            <summary>
+                Scan the manifest of the supplied Assembly with a regex pattern for embedded resources
+            </summary>
+            <param name="assembly">Assembly to scan</param>
+            <param name="regexPattern">Regex pattern to scan for</param>
+            <returns>IEnumerable with matching resource names</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.FindEmbeddedResources(System.Collections.Generic.IEnumerable{System.Reflection.Assembly},System.Text.RegularExpressions.Regex)">
+            <summary>
+                Scan the manifest of the supplied Assembly elements with a regex pattern for embedded resources
+            </summary>
+            <param name="assemblies">IEnumerable with Assembly elements to scan</param>
+            <param name="regex">Regex to scan for</param>
+            <returns>IEnumerable with matching resource names</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.ResourceAsStream(System.Uri)">
+            <summary>
+                Returns the embedded resource, as specified in the Pack-Uri as a stream.
+                This currently doesn't go into the embedded .g.resources files, this might be added later
+            </summary>
+            <param name="applicationPackUri">Uri</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.EmbeddedResourceExists(System.Uri,System.Boolean)">
+            <summary>
+                Test if there is an embedded resourcefor the Pack-Uri
+                This is work in progress, as most of the times the files are compiled from xaml to baml, and won't be recognized
+                when you specify a pack uri ending on .xaml
+            </summary>
+            <param name="packUri">Uri</param>
+            <param name="ignoreCase">true to ignore the case</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.HasEmbeddedDotResourcesResource(System.Reflection.Assembly,System.String,System.Boolean)">
+            <summary>
+                check if there is any resource in the specified assembly's .g.resources which matches the Regex
+                This is work in progress, as most of the times the files are compiled from xaml to baml, and won't be recognized
+                when you specify .xaml
+            </summary>
+            <param name="assembly">Assembly</param>
+            <param name="filePath">filePath</param>
+            <param name="ignoreCase">true to ignore the case</param>
+            <returns>bool with true if there is a matching resource</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Resolving.ManifestResources.FindEmbeddedResources(System.Reflection.Assembly,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+                Scan the manifest of the supplied Assembly with a regex pattern for embedded resources
+            </summary>
+            <param name="assembly">Assembly to scan</param>
+            <param name="regexPattern">Regex pattern to scan for</param>
+            <param name="regexOptions">RegexOptions.IgnoreCase as default</param>
+            <returns>IEnumerable with matching resource names</returns>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.ResourceMutex">
+            <summary>
+                This protects your resources or application from running more than once
+                Simplifies the usage of the Mutex class, as described here:
+                https://msdn.microsoft.com/en-us/library/System.Threading.Mutex.aspx
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ResourceMutex.#ctor(System.String,System.String)">
+            <summary>
+                Private constructor
+            </summary>
+            <param name="mutexId">string with a unique Mutex ID</param>
+            <param name="resourceName">optional name for the resource</param>
+        </member>
+        <member name="P:Dapplo.Addons.Bootstrapper.ResourceMutex.IsLocked">
+            <summary>
+                Test if the Mutex was created and locked.
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ResourceMutex.Create(System.String,System.String,System.Boolean)">
+            <summary>
+                Create a ResourceMutex for the specified mutex id and resource-name
+            </summary>
+            <param name="mutexId">ID of the mutex, preferably a Guid as string</param>
+            <param name="resourceName">Name of the resource to lock, e.g your application name, usefull for logs</param>
+            <param name="global">true to have a global mutex see: https://msdn.microsoft.com/en-us/library/bwe34f1k.aspx </param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ResourceMutex.Lock">
+            <summary>
+                This tries to get the Mutex, which takes care of having multiple instances running
+            </summary>
+            <returns>true if it worked, false if another instance is already running or something went wrong</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.ResourceMutex.Dispose">
+            <summary>
+                Dispose the application mutex
+            </summary>
+        </member>
+        <member name="T:Dapplo.Addons.Bootstrapper.Services.ServiceStartupShutdown">
+            <summary>
+            This handles the startup of all IService implementing classes
+            </summary>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Services.ServiceStartupShutdown.#ctor(System.Collections.Generic.IEnumerable{Autofac.Features.Metadata.Meta{Dapplo.Addons.IService,Dapplo.Addons.ServiceAttribute}},Autofac.Features.Indexed.IIndex{System.String,System.Threading.Tasks.TaskScheduler})">
+            <summary>
+            The constructor to specify the startup modules
+            </summary>
+            <param name="services">IEnumerable</param>
+            <param name="taskSchedulers">IIndex of TaskSchedulers</param>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Services.ServiceStartupShutdown.StartupAsync(System.Threading.CancellationToken)">
+            <summary>
+            Start the services, begin with the root nodes and than everything that depends on these, and so on
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task to await startup</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Services.ServiceStartupShutdown.ShutdownAsync(System.Threading.CancellationToken)">
+            <summary>
+            Stop the services, begin with the nodes without dependencies and than everything that this depends on, and so on
+            </summary>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task to await startup</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Services.ServiceStartupShutdown.StartServices(System.Collections.Generic.IEnumerable{Dapplo.Addons.Services.ServiceNode{Dapplo.Addons.IService}},System.Threading.CancellationToken)">
+            <summary>
+            Create a task for the startup
+            </summary>
+            <param name="serviceNodes">IEnumerable with ServiceNode</param>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Dapplo.Addons.Bootstrapper.Services.ServiceStartupShutdown.StopServices(System.Collections.Generic.IEnumerable{Dapplo.Addons.Services.ServiceNode{Dapplo.Addons.IService}},System.Threading.CancellationToken)">
+            <summary>
+            Create a task for the stop
+            </summary>
+            <param name="serviceNodes">IEnumerable with ServiceNode</param>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>Task</returns>
+        </member>
+    </members>
+</doc>
