@@ -137,7 +137,9 @@
                     </Grid.ColumnDefinitions>
                     <Rectangle x:Name="ParticipantRct" Fill="{DynamicResource PrimaryHueMidBrush}"
                                Visibility="Hidden"/>
-                    <!--Pic-->
+                    
+<!--Pic-->
+
                     <Grid Grid.Column="1" Margin="6" SnapsToDevicePixels="True">
                         <Grid.OpacityMask>
                             <VisualBrush Visual="{Binding ElementName=ClipEllipse}"/>
@@ -148,21 +150,29 @@
                         <Image Source="{Binding Photo, Converter={StaticResource ByteBmpSrcConverter},
                             TargetNullValue={StaticResource BlankImage}}" Stretch="UniformToFill"/>
                     </Grid>
-                    <!--Name-->
+                    
+<!--Name-->
+
                     <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left"
                                Margin="5,0" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
                                Text="{Binding Name}" SnapsToDevicePixels="True"/>
 
-                    <!--New Message icon-->
+                    
+<!--New Message icon-->
+
                     <materialDesign:PackIcon Name="NewMessageIcon" Grid.Column="3" SnapsToDevicePixels="True"
                                              VerticalAlignment="Center" HorizontalAlignment="Center"
                                              Kind="MessageReplyText" Opacity="0.7" Visibility="Hidden"/>
-                    <!--Typing icon-->
+                    
+<!--Typing icon-->
+
                     <materialDesign:PackIcon Name="TypingIcon" Grid.Column="3" SnapsToDevicePixels="True"
                                              VerticalAlignment="Center" HorizontalAlignment="Center"
                                              Kind="Feather" Opacity="0.8" Visibility="Hidden"/>
 
-                    <!--Online-->
+                    
+<!--Online-->
+
                     <Ellipse Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" 
                              Width="8" Height="8">
                         <Ellipse.Style>
@@ -288,15 +298,18 @@
         <Border Grid.Row="0" Grid.Column="2" BorderThickness="1,1,1,1" SnapsToDevicePixels="True"
                 BorderBrush="DeepSkyBlue">
             <StackPanel Grid.Row="0" Grid.Column="2">
-                <Label Grid.Row="0" Grid.Column="2" Content="{Binding UserName}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,10,0" ToolTip="Please Click here for more Options">
+                <Label Grid.Row="0" Grid.Column="2" Content="Profile User Name:" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label Grid.Row="0" Grid.Column="2" Content="{Binding UserName}" HorizontalAlignment="Center" FontWeight="Bold" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="0,-23,150,0"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,-25,15,0" ToolTip="Please Click here for more Options">
             <materialDesign:PackIcon Kind="DotsVertical"/>
                 </TextBlock>
             </StackPanel>
         </Border>
 
 
-        <!--Messages-->
+        
+<!--Messages-->
+
         <ItemsControl Grid.Row="1" x:Name="MessagesItemsCtrl" Grid.Column="1" Margin="0,5,0,0" 
                       ItemsSource="{Binding SelectedParticipant.Chatter}" 
                       ItemTemplate="{DynamicResource MessagesDataTemplate}"
@@ -320,7 +333,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
-                <!--Message-->
+                
+<!--Message-->
+
                 <Border Margin="10,10,0,10" MaxHeight="80"
                         BorderThickness="1" BorderBrush="{DynamicResource MaterialDesignDivider}">
                     <Grid>
@@ -328,7 +343,9 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <!--Text-->
+                        
+<!--Text-->
+
                         <TextBox Grid.Row="2" x:Name="MessageTxtBox" BorderBrush="Transparent"
                                  TextWrapping="Wrap" AcceptsReturn="True" CaretBrush="#7F000000"
                                  VerticalScrollBarVisibility="Auto"
@@ -339,13 +356,17 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <!--Image-->
+                        
+<!--Image-->
+
                         <Button Grid.Row="2" Grid.Column="1" Foreground="#FF6E6E6E" Margin="4"
                                 Style="{DynamicResource ImageButtonStyle}"
                                 Command="{Binding SendImageMessageCommand}"/>
                     </Grid>
                 </Border>
-                <!--Send-->
+                
+<!--Send-->
+
                 <Button Grid.Row="2" x:Name="SendButton" Grid.Column="1" Margin="10"
                         Style="{DynamicResource SendButtonStyle}"
                         Command="{Binding SendTextMessageCommand}"/>

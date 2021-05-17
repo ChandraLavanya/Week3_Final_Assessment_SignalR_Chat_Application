@@ -1,0 +1,912 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VIEApps.Components.WebSockets</name>
+    </assembly>
+    <members>
+        <member name="T:net.vieapps.Components.WebSockets.Events">
+            <summary>
+            Use the Guid to locate this EventSource in PerfView using the Additional Providers box (without wildcard characters)
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.Exceptions.EntityTooLargeException.#ctor(System.String)">
+            <summary>
+            HTTP header too large to fit in buffer
+            </summary>
+        </member>
+        <member name="T:net.vieapps.Components.WebSockets.WebSocket">
+            <summary>
+            The centralized point for working with WebSocket
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.Certificate">
+            <summary>
+            Gets or Sets the SSL certificate for securing connections (server)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.SslProtocol">
+            <summary>
+            Gets or Sets the SSL protocol for securing connections with SSL Certificate (server)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.SupportedSubProtocols">
+            <summary>
+            Gets or Sets the collection of supported sub-protocol (server)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.KeepAliveInterval">
+            <summary>
+            Gets or Sets the keep-alive interval for sending ping messages (server)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.NoDelay">
+            <summary>
+            Gets or Sets a value that specifies whether the listener is disable the Nagle algorithm or not (default is true - means disable for better performance)
+            </summary>
+            <remarks>
+            Set to true to send a message immediately with the least amount of latency (typical usage for chat)
+            This will disable Nagle's algorithm which can cause high tcp latency for small packets sent infrequently
+            However, if you are streaming large packets or sending large numbers of small packets frequently it is advisable to set NoDelay to false
+            This way data will be bundled into larger packets for better throughput
+            </remarks>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.ReceivingAwaitInterval">
+            <summary>
+            Gets or Sets await interval between two rounds of receiving messages
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.IsDisposed">
+            <summary>
+            Gets the state that determines the WebSocket object was disposed or not
+            </summary>
+        </member>
+        <member name="E:net.vieapps.Components.WebSockets.WebSocket.ErrorHandler">
+            <summary>
+            Event to fire when got an error while processing
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.OnError">
+            <summary>
+            Gets or Sets the action to run when got an error while processing
+            </summary>
+        </member>
+        <member name="E:net.vieapps.Components.WebSockets.WebSocket.ConnectionEstablishedHandler">
+            <summary>
+            Event to fire when a connection is established
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.OnConnectionEstablished">
+            <summary>
+            Gets or Sets the action to run when a connection is established
+            </summary>
+        </member>
+        <member name="E:net.vieapps.Components.WebSockets.WebSocket.ConnectionBrokenHandler">
+            <summary>
+            Event to fire when a connection is broken
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.OnConnectionBroken">
+            <summary>
+            Gets or Sets the action to run when a connection is broken
+            </summary>
+        </member>
+        <member name="E:net.vieapps.Components.WebSockets.WebSocket.MessageReceivedHandler">
+            <summary>
+            Event to fire when a message is received
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.OnMessageReceived">
+            <summary>
+            Gets or Sets the action to run when a message is received
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.#ctor(System.Threading.CancellationToken)">
+            <summary>
+            Creates new an instance of the centralized <see cref="T:net.vieapps.Components.WebSockets.WebSocket">WebSocket</see>
+            </summary>
+            <param name="cancellationToken">The cancellation token</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Threading.CancellationToken)">
+            <summary>
+            Creates new an instance of the centralized <see cref="T:net.vieapps.Components.WebSockets.WebSocket">WebSocket</see>
+            </summary>
+            <param name="loggerFactory">The logger factory</param>
+            <param name="cancellationToken">The cancellation token</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.IO.MemoryStream},System.Threading.CancellationToken)">
+            <summary>
+            Creates new an instance of the centralized <see cref="T:net.vieapps.Components.WebSockets.WebSocket">WebSocket</see>
+            </summary>
+            <param name="loggerFactory">The logger factory</param>
+            <param name="recycledStreamFactory">Used to get a recyclable memory stream (this can be used with the Microsoft.IO.RecyclableMemoryStreamManager class)</param>
+            <param name="cancellationToken">The cancellation token</param>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.ReceiveBufferSize">
+            <summary>
+            Gets or sets the size (length) of the protocol buffer used to receive and parse frames, the default is 16kb, the minimum is 1kb (1024 bytes)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocket.AgentName">
+            <summary>
+            Gets or sets the agent name of the protocol for working with related headers
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.StartListen(System.Int32,System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action,System.Action{System.Exception},System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[]},System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[],System.Byte[]},System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[]})">
+            <summary>
+            Starts to listen for client requests as a WebSocket server
+            </summary>
+            <param name="port">The port for listening</param>
+            <param name="certificate">The SSL Certificate to secure connections</param>
+            <param name="onSuccess">Action to fire when start successful</param>
+            <param name="onFailure">Action to fire when failed to start</param>
+            <param name="getPingPayload">The function to get the custom 'PING' playload to send a 'PING' message</param>
+            <param name="getPongPayload">The function to get the custom 'PONG' playload to response to a 'PING' message</param>
+            <param name="onPong">The action to run when a 'PONG' message has been sent</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.StartListen(System.Int32,System.Action,System.Action{System.Exception},System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[]},System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[],System.Byte[]},System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[]})">
+            <summary>
+            Starts to listen for client requests as a WebSocket server
+            </summary>
+            <param name="port">The port for listening</param>
+            <param name="onSuccess">Action to fire when start successful</param>
+            <param name="onFailure">Action to fire when failed to start</param>
+            <param name="getPingPayload">The function to get the custom 'PING' playload to send a 'PING' message</param>
+            <param name="getPongPayload">The function to get the custom 'PONG' playload to response to a 'PING' message</param>
+            <param name="onPong">The action to run when a 'PONG' message has been sent</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.StartListen(System.Int32,System.Action,System.Action{System.Exception})">
+            <summary>
+            Starts to listen for client requests as a WebSocket server
+            </summary>
+            <param name="port">The port for listening</param>
+            <param name="onSuccess">Action to fire when start successful</param>
+            <param name="onFailure">Action to fire when failed to start</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.StartListen(System.Int32,System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[]},System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[],System.Byte[]},System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Byte[]})">
+            <summary>
+            Starts to listen for client requests as a WebSocket server
+            </summary>
+            <param name="port">The port for listening</param>
+            <param name="getPingPayload">The function to get the custom 'PING' playload to send a 'PING' message</param>
+            <param name="getPongPayload">The function to get the custom 'PONG' playload to response to a 'PING' message</param>
+            <param name="onPong">The action to run when a 'PONG' message has been sent</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.StartListen(System.Int32)">
+            <summary>
+            Starts to listen for client requests as a WebSocket server
+            </summary>
+            <param name="port">The port for listening</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.StopListen(System.Boolean)">
+            <summary>
+            Stops listen
+            </summary>
+            <param name="cancelPendings">true to cancel the pending connections</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.Connect(System.Uri,net.vieapps.Components.WebSockets.WebSocketOptions,System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket},System.Action{System.Exception})">
+            <summary>
+            Connects to a remote endpoint as a WebSocket client
+            </summary>
+            <param name="uri">The address of the remote endpoint to connect to</param>
+            <param name="options">The options</param>
+            <param name="onSuccess">Action to fire when connect successful</param>
+            <param name="onFailure">Action to fire when failed to connect</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.Connect(System.Uri,System.String,System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket},System.Action{System.Exception})">
+            <summary>
+            Connects to a remote endpoint as a WebSocket client
+            </summary>
+            <param name="uri">The address of the remote endpoint to connect to</param>
+            <param name="subProtocol">The sub-protocol</param>
+            <param name="onSuccess">Action to fire when connect successful</param>
+            <param name="onFailure">Action to fire when failed to connect</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.Connect(System.String,System.String,System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket},System.Action{System.Exception})">
+            <summary>
+            Connects to a remote endpoint as a WebSocket client
+            </summary>
+            <param name="location">The address of the remote endpoint to connect to</param>
+            <param name="subProtocol">The sub-protocol</param>
+            <param name="onSuccess">Action to fire when connect successful</param>
+            <param name="onFailure">Action to fire when failed to connect</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.Connect(System.String,System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket},System.Action{System.Exception})">
+            <summary>
+            Connects to a remote endpoint as a WebSocket client
+            </summary>
+            <param name="location">The address of the remote endpoint to connect to</param>
+            <param name="onSuccess">Action to fire when connect successful</param>
+            <param name="onFailure">Action to fire when failed to connect</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.WrapAsync(System.Net.WebSockets.WebSocket,System.Uri,System.Net.EndPoint,System.Net.EndPoint,System.Collections.Generic.Dictionary{System.String,System.String},System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket})">
+            <summary>
+            Wraps a <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection of ASP.NET / ASP.NET Core and acts like a <see cref="T:net.vieapps.Components.WebSockets.WebSocket">WebSocket</see> server
+            </summary>
+            <param name="webSocket">The <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection of ASP.NET / ASP.NET Core</param>
+            <param name="requestUri">The original request URI of the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection</param>
+            <param name="remoteEndPoint">The remote endpoint of the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection</param>
+            <param name="localEndPoint">The local endpoint of the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection</param>
+            <param name="headers">The collection that presents the headers of the client that made this request to the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection</param>
+            <param name="onSuccess">The action to run when the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection is wrap success</param>
+            <returns>A task that run the receiving process when wrap successful or an exception when failed</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.WrapAsync(System.Net.WebSockets.WebSocket,System.Uri,System.Net.EndPoint)">
+            <summary>
+            Wraps a <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection of ASP.NET / ASP.NET Core and acts like a <see cref="T:net.vieapps.Components.WebSockets.WebSocket">WebSocket</see> server
+            </summary>
+            <param name="webSocket">The <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection of ASP.NET / ASP.NET Core</param>
+            <param name="requestUri">The original request URI of the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection</param>
+            <param name="remoteEndPoint">The remote endpoint of the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> connection</param>
+            <returns>A task that run the receiving process when wrap successful or an exception when failed</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.SendAsync(System.Guid,System.ArraySegment{System.Byte},System.Net.WebSockets.WebSocketMessageType,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends the message to a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+            <param name="id">The identity of a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection</param>
+            <param name="buffer">The buffer containing message to send</param>
+            <param name="messageType">The message type, can be Text or Binary</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), false if it is a multi-part message (and true for the last message)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.SendAsync(System.Guid,System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends the message to a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+            <param name="id">The identity of a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection</param>
+            <param name="message">The text message to send</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), false if it is a multi-part message (and true for the last message)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.SendAsync(System.Guid,System.Byte[],System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends the message to a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+            <param name="id">The identity of a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection</param>
+            <param name="message">The binary message to send</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), false if it is a multi-part message (and true for the last message)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.SendAsync(System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Boolean},System.ArraySegment{System.Byte},System.Net.WebSockets.WebSocketMessageType,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends the message to the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections that matched with the predicate
+            </summary>
+            <param name="predicate">The predicate for selecting <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections</param>
+            <param name="buffer">The buffer containing message to send</param>
+            <param name="messageType">The message type. Can be Text or Binary</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), false if it is a multi-part message (and true for the last message)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.SendAsync(System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Boolean},System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends the message to the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections that matched with the predicate
+            </summary>
+            <param name="predicate">The predicate for selecting <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections</param>
+            <param name="message">The text message to send</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), false if it is a multi-part message (and true for the last message)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.SendAsync(System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Boolean},System.Byte[],System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends the message to the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections that matched with the predicate
+            </summary>
+            <param name="predicate">The predicate for selecting <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections</param>
+            <param name="message">The binary message to send</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), false if it is a multi-part message (and true for the last message)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.GetWebSocket(System.Guid)">
+            <summary>
+            Gets a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection that specifed by identity
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.GetWebSockets(System.Func{net.vieapps.Components.WebSockets.ManagedWebSocket,System.Boolean})">
+            <summary>
+            Gets the collection of <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections that matched with the predicate
+            </summary>
+            <param name="predicate">Predicate for selecting <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connections, if no predicate is provied then return all</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.CloseWebsocketAsync(net.vieapps.Components.WebSockets.ManagedWebSocket,System.Net.WebSockets.WebSocketCloseStatus,System.String)">
+            <summary>
+            Closes the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection and remove from the centralized collections
+            </summary>
+            <param name="websocket">The <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection to close</param>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.CloseWebsocket(net.vieapps.Components.WebSockets.ManagedWebSocket,System.Net.WebSockets.WebSocketCloseStatus,System.String)">
+            <summary>
+            Closes the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection and remove from the centralized collections
+            </summary>
+            <param name="websocket">The <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection to close</param>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.CloseWebSocket(System.Guid,System.Net.WebSockets.WebSocketCloseStatus,System.String)">
+            <summary>
+            Closes the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection and remove from the centralized collections
+            </summary>
+            <param name="id">The identity of a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection to close</param>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <returns>true if closed and destroyed</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.CloseWebSocketAsync(System.Guid,System.Net.WebSockets.WebSocketCloseStatus,System.String)">
+            <summary>
+            Closes the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection and remove from the centralized collections
+            </summary>
+            <param name="id">The identity of a <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection to close</param>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <returns>true if closed and destroyed</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.CloseWebSocket(net.vieapps.Components.WebSockets.ManagedWebSocket,System.Net.WebSockets.WebSocketCloseStatus,System.String)">
+            <summary>
+            Closes the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection and remove from the centralized collections
+            </summary>
+            <param name="websocket">The <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection to close</param>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <returns>true if closed and destroyed</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.CloseWebSocketAsync(net.vieapps.Components.WebSockets.ManagedWebSocket,System.Net.WebSockets.WebSocketCloseStatus,System.String)">
+            <summary>
+            Closes the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection and remove from the centralized collections
+            </summary>
+            <param name="websocket">The <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection to close</param>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <returns>true if closed and destroyed</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.DisposeAsync(System.Action{net.vieapps.Components.WebSockets.WebSocket})">
+            <summary>
+            Disposes this WebSocket
+            </summary>
+            <param name="next">The action to run when the WebSocket object was disposed</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocket.DisposeAsync">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:net.vieapps.Components.WebSockets.ManagedWebSocket">
+            <summary>
+            An implementation or a wrapper of the <see cref="T:System.Net.WebSockets.WebSocket">WebSocket</see> abstract class with more useful information
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.ID">
+            <summary>
+            Gets the identity of the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.IsClient">
+            <summary>
+            Gets the state that indicates the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection is client mode or not (client mode means the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection is connected to a remote endpoint)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.KeepAliveInterval">
+            <summary>
+            Gets the keep-alive interval (seconds) the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection (for send ping message from server)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.Timestamp">
+            <summary>
+            Gets the time-stamp when the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection is established
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.RequestUri">
+            <summary>
+            Gets the original Uniform Resource Identifier (URI) of the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.RemoteEndPoint">
+            <summary>
+            Gets the remote endpoint of the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.LocalEndPoint">
+            <summary>
+            Gets the local endpoint of the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.Extra">
+            <summary>
+            Gets the extra information of the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.IncludeExceptionInCloseResponse">
+            <summary>
+            Gets the state to include the full exception (with stack trace) in the close response when an exception is encountered and the WebSocket connection is closed
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.IsDisposed">
+            <summary>
+            Gets the state that determines the WebSocket object was disposed or not
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.SendAsync(System.ArraySegment{System.Byte},System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection asynchronously
+            </summary>
+            <param name="message">The message to send</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), if its a multi-part message then false (and true for the last)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.SendAsync(System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection asynchronously
+            </summary>
+            <param name="message">The message to send</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.SendAsync(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection asynchronously
+            </summary>
+            <param name="message">The message to send</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), if its a multi-part message then false (and true for the last)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.SendAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection asynchronously
+            </summary>
+            <param name="message">The message to send</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.SendAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection asynchronously
+            </summary>
+            <param name="message">The message to send</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), if its a multi-part message then false (and true for the last)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.SendAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection asynchronously
+            </summary>
+            <param name="message">The message to send</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.CloseOutputTimeoutAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Exception,System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket},System.Action{System.Exception},System.Int32)">
+            <summary>
+            Closes the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection automatically in period of time (to response to some invalid data from the remote host)
+            </summary>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <param name="exception">The exception (for logging)</param>
+            <param name="onSuccess">The action to run when the connection was closed successful</param>
+            <param name="onError">The action to run when got any error</param>
+            <param name="awaitingTimes">The seconds for awaiting</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.DisposeAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Action{net.vieapps.Components.WebSockets.ManagedWebSocket})">
+            <summary>
+            Cleans up unmanaged resources (will send a close frame if the connection is still open)
+            </summary>
+            <param name="closeStatus">The closing status</param>
+            <param name="closeStatusDescription">The closing status description</param>
+            <param name="next">The action to run when the WebSocket object was disposed</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.DisposeAsync">
+            <summary>
+            Cleans up unmanaged resources (will send a close frame if the connection is still open)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.Dispose">
+            <summary>
+            Cleans up unmanaged resources (will send a close frame if the connection is still open)
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.Set``1(System.String,``0)">
+            <summary>
+            Sets the value of a specified key of the extra information
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.Get``1(System.String,``0)">
+            <summary>
+            Gets the value of a specified key from the extra information
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="default"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.Remove(System.String)">
+            <summary>
+            Removes the value of a specified key from the extra information
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.ManagedWebSocket.Remove``1(System.String,``0@)">
+            <summary>
+            Removes the value of a specified key from the extra information
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.ManagedWebSocket.Headers">
+            <summary>
+            Gets the header information of the <see cref="T:net.vieapps.Components.WebSockets.ManagedWebSocket">WebSocket</see> connection
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketFrameExtensions.ToggleMask(System.ArraySegment{System.Byte},System.ArraySegment{System.Byte})">
+            <summary>
+            Mutate payload with the mask key. This is a reversible process, if you apply this to masked data it will be unmasked and visa versa.
+            </summary>
+            <param name="maskKey">The 4 byte mask key</param>
+            <param name="payload">The payload to mutate</param>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketFrameExtensions.DecodeCloseFrame(System.Boolean,net.vieapps.Components.WebSockets.WebSocketOpCode,System.Int32,System.ArraySegment{System.Byte})">
+            <summary>
+            Extracts close status and close description information from the web socket frame
+            </summary>
+            <param name="isFinBitSet"></param>
+            <param name="opCode"></param>
+            <param name="count"></param>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketFrameExtensions.ReadLengthAsync(System.IO.Stream,System.Byte,System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Reads the length of the payload according to the contents of byte2
+            </summary>
+            <param name="byte2"></param>
+            <param name="buffer"></param>
+            <param name="stream"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketFrameExtensions.ReadFrameAsync(System.IO.Stream,System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Read a WebSocket frame from the stream
+            </summary>
+            <param name="stream">The stream to read from</param>
+            <param name="buffer">The buffer to read into</param>
+            <param name="cancellationToken">the cancellation token</param>
+            <returns>A websocket frame</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketFrameExtensions.WriteFrame(System.IO.MemoryStream,net.vieapps.Components.WebSockets.WebSocketOpCode,System.ArraySegment{System.Byte},System.Boolean,System.Boolean)">
+            <summary>
+            Writes a WebSocket frame into this stream
+            </summary>
+            <param name="stream">Stream to write to</param>
+            <param name="opCode">The web socket opcode</param>
+            <param name="payload">Array segment to get payload data from</param>
+            <param name="isLastFrame">True is this is the last frame in this message (usually true)</param>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketHelper.ReceiveBufferSize">
+            <summary>
+            Gets or sets the size (length) of the protocol buffer used to receive and parse frames
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketHelper.AgentName">
+            <summary>
+            Gets or sets the agent name of the protocol for working with related headers
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketHelper.GetRecyclableMemoryStreamFactory">
+            <summary>
+            Gets a factory to get recyclable memory stream with RecyclableMemoryStreamManager class to limit LOH fragmentation and improve performance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketHelper.ReadHeaderAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Reads the header
+            </summary>
+            <param name="stream">The stream to read from</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns>The HTTP header</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketHelper.WriteHeaderAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Writes the header
+            </summary>
+            <param name="stream">The stream to write to</param>
+            <param name="header">The header (without the new line characters)</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketImplementation.CloseStatus">
+            <summary>
+            Gets the state that indicates the reason why the remote endpoint initiated the close handshake
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketImplementation.CloseStatusDescription">
+            <summary>
+            Gets the description to describe the reason why the connection was closed
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketImplementation.State">
+            <summary>
+            Gets the current state of the WebSocket connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketImplementation.SubProtocol">
+            <summary>
+            Gets the subprotocol that was negotiated during the opening handshake
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketImplementation.IncludeExceptionInCloseResponse">
+            <summary>
+            Gets the state to include the full exception (with stack trace) in the close response when an exception is encountered and the WebSocket connection is closed
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.PutOnTheWireAsync(System.IO.MemoryStream,System.Threading.CancellationToken)">
+            <summary>
+            Puts data on the wire
+            </summary>
+            <param name="stream"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.ReceiveAsync(System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Receives data from the WebSocket connection asynchronously
+            </summary>
+            <param name="buffer">The buffer to copy data into</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.RespondToCloseFrameAsync(net.vieapps.Components.WebSockets.WebSocketFrame,System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when a Close frame is received
+            Send a response close frame if applicable
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.SendPongAsync(System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Calls this when got ping messages (pong payload must be 125 bytes or less, pong should contain the same payload as the ping)
+            </summary>
+            <param name="payload"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.SendPingAsync(System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Calls this automatically from server side each KeepAliveInterval period (ping payload must be 125 bytes or less)
+            </summary>
+            <param name="payload"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.SendAsync(System.ArraySegment{System.Byte},System.Net.WebSockets.WebSocketMessageType,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the WebSocket connection asynchronously
+            </summary>
+            <param name="buffer">The buffer containing data to send</param>
+            <param name="messageType">The message type, can be Text or Binary</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), if its a multi-part message then false (and true for the last)</param>
+            <param name="cancellationToken">the cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.BuildClosePayload(System.Net.WebSockets.WebSocketCloseStatus,System.String)">
+            <summary>
+            As per the spec, write the close status followed by the close reason
+            </summary>
+            <param name="closeStatus">The close status</param>
+            <param name="closeStatusDescription">Optional extra close details</param>
+            <returns>The payload to sent in the close frame</returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Polite close (use the close handshake)
+            </summary>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <param name="cancellationToken">The timeout cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.CloseOutputAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Fire and forget close
+            </summary>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <param name="cancellationToken">The timeout cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketImplementation.Abort">
+            <summary>
+            Aborts the WebSocket without sending a close frame
+            </summary>
+        </member>
+        <member name="F:net.vieapps.Components.WebSockets.WebSocketOpCode.Continuation">
+            <summary>
+            Continuous message
+            </summary>
+        </member>
+        <member name="F:net.vieapps.Components.WebSockets.WebSocketOpCode.Text">
+            <summary>
+            Text message
+            </summary>
+        </member>
+        <member name="F:net.vieapps.Components.WebSockets.WebSocketOpCode.Binary">
+            <summary>
+            Binary message
+            </summary>
+        </member>
+        <member name="F:net.vieapps.Components.WebSockets.WebSocketOpCode.ConnectionClose">
+            <summary>
+            Closing message
+            </summary>
+        </member>
+        <member name="F:net.vieapps.Components.WebSockets.WebSocketOpCode.Ping">
+            <summary>
+            Ping message
+            </summary>
+        </member>
+        <member name="F:net.vieapps.Components.WebSockets.WebSocketOpCode.Pong">
+            <summary>
+            Pong message
+            </summary>
+        </member>
+        <member name="T:net.vieapps.Components.WebSockets.WebSocketOptions">
+            <summary>
+            Options for initializing a WebSocket connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.KeepAliveInterval">
+            <summary>
+            Gets or sets how often to send ping requests to the remote endpoint
+            </summary>
+            <remarks>
+            This is done to prevent proxy servers from closing your connection, the default is TimeSpan.Zero meaning that it is disabled.
+            WebSocket servers usually send ping messages so it is not normally necessary for the client to send them (hence the TimeSpan.Zero default)
+            You can manually control ping pong messages using the PingPongManager class. If you do that it is advisible to set this KeepAliveInterval to zero.
+            </remarks>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.SubProtocol">
+            <summary>
+            Gets or Sets the sub-protocol (Sec-WebSocket-Protocol)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.Extensions">
+            <summary>
+            Gets or Sets the extensions (Sec-WebSocket-Extensions)
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.NoDelay">
+            <summary>
+            Gets or Sets state to send a message immediately or not
+            </summary>
+            <remarks>
+            Set to true to send a message immediately with the least amount of latency (typical usage for chat)
+            This will disable Nagle's algorithm which can cause high tcp latency for small packets sent infrequently
+            However, if you are streaming large packets or sending large numbers of small packets frequently it is advisable to set NoDelay to false
+            This way data will be bundled into larger packets for better throughput
+            </remarks>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.AdditionalHeaders">
+            <summary>
+            Gets or Sets the additional headers
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.IncludeExceptionInCloseResponse">
+            <summary>
+            Gets or Sets the state to include the full exception (with stack trace) in the close response when an exception is encountered and the WebSocket connection is closed
+            </summary>
+            <remarks>
+            The default is false
+            </remarks>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.IgnoreCertificateErrors">
+            <summary>
+            Gets or Sets whether remote certificate errors should be ignored 
+            </summary>
+            <remarks>
+            The default is false
+            </remarks>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.GetPingPayload">
+            <summary>
+            Gets or Sets the function to prepare the custom 'PING' playload to send a 'PING' message
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.GetPongPayload">
+            <summary>
+            Gets or Sets the function to prepare the custom 'PONG' playload to response to a 'PING' message
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketOptions.OnPong">
+            <summary>
+            Gets or Sets the action to fire when a 'PONG' message has been sent
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketWrapper.CloseStatus">
+            <summary>
+            Gets the state that indicates the reason why the remote endpoint initiated the close handshake
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketWrapper.CloseStatusDescription">
+            <summary>
+            Gets the description to describe the reason why the connection was closed
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketWrapper.State">
+            <summary>
+            Gets the current state of the WebSocket connection
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketWrapper.SubProtocol">
+            <summary>
+            Gets the subprotocol that was negotiated during the opening handshake
+            </summary>
+        </member>
+        <member name="P:net.vieapps.Components.WebSockets.WebSocketWrapper.IncludeExceptionInCloseResponse">
+            <summary>
+            Gets the state to include the full exception (with stack trace) in the close response when an exception is encountered and the WebSocket connection is closed
+            </summary>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketWrapper.ReceiveAsync(System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Receives data from the WebSocket connection asynchronously
+            </summary>
+            <param name="buffer">The buffer to copy data into</param>
+            <param name="cancellationToken">The cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketWrapper.SendAsync(System.ArraySegment{System.Byte},System.Net.WebSockets.WebSocketMessageType,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the WebSocket connection asynchronously
+            </summary>
+            <param name="buffer">The buffer containing data to send</param>
+            <param name="messageType">The message type, can be Text or Binary</param>
+            <param name="endOfMessage">true if this message is a standalone message (this is the norm), if its a multi-part message then false (and true for the last)</param>
+            <param name="cancellationToken">the cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketWrapper.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Polite close (use the close handshake)
+            </summary>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <param name="cancellationToken">The timeout cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketWrapper.CloseOutputAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Fire and forget close
+            </summary>
+            <param name="closeStatus">The close status to use</param>
+            <param name="closeStatusDescription">A description of why we are closing</param>
+            <param name="cancellationToken">The timeout cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:net.vieapps.Components.WebSockets.WebSocketWrapper.Abort">
+            <summary>
+            Aborts the WebSocket without sending a Close frame
+            </summary>
+        </member>
+    </members>
+</doc>
